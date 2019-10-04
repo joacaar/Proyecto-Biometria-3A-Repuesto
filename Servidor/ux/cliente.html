@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="../ux/proxy.js"></script>
+<script>
+
+  var elProxy = new Proxy();
+
+  function cuanEsCarrega() {
+    console.log( "s'ha carregat la plana")
+  }
+
+
+  function insertPers(){
+
+    var dni = document.getElementById('dniP').value;
+    var nombre = document.getElementById('nombreP').value;
+    var apellidos = document.getElementById('apellidosP').value;
+
+    console.log("DniP: " + dni);
+    console.log("NombreP: " + nombre);
+    console.log("ApellidosP: "+ apellidos);
+
+    elProxy.insertarPersonaPr(dni, nombre, apellidos);
+
+  }
+
+  function insertAs(){
+
+    var nombre = document.getElementById('nombreA').value;
+    var codigo = document.getElementById('codigoA').value;
+
+    console.log("NombreA: " + nombre);
+    console.log("CodigoA: " + codigo);
+
+    elProxy.insertarAsignaturaPr(nombre, codigo);
+
+  }
+
+  function hacerMatr(){
+
+    var dni = document.getElementById('dniM').value;
+    var codigo = document.getElementById('codigoM').value;
+
+    console.log("NombreA: " + dni);
+    console.log("CodigoA: " + codigo);
+
+    elProxy.hacerMatriculaPr(dni, codigo);
+
+  }
+
+  async function getPers(){
+
+      var dni = document.getElementById('dniGP').value;
+      elProxy.getPersonaPorDniPr(dni);
+
+  }
+
+  async function getAsignatura(){
+    var codigo = document.getElementById('codigoAP').value;
+    console.log(codigo);
+    elProxy.getAsignaturaPorCodigoPr(codigo);
+  }
+
+</script>
+
+<body onload="cuanEsCarrega()">
+
+<h2>Insertar asignatura</h2>
+
+  Nombre:
+  <br>
+  <input id="nombreA" type="text" name="nombreA" value="Informatica">
+  <br>
+  Codigo:
+  <br>
+  <input id="codigoA" type="text" name="codigoA" value="63">
+  <br><br>
+  <button onclick="insertAs()">InsertarAsignatura</button>
+
+<br>
+
+<h2>Insertar persona</h2>
+
+  <br>
+  DNI:
+  <br>
+  <input id="dniP" type="text" name="dniP" value="2323B">
+  <br>
+  Nombre:
+  <br>
+  <input id="nombreP" type="text" name="nombreP" value="David">
+  <br>
+  Apellidos:
+  <br>
+  <input id="apellidosP" type="text" name="apellidosP" value="Ferro">
+  <br>
+  <br>
+  <button onclick="insertPers()">InsertarPersona</button>
+
+
+<br>
+
+<h2>hacerMatricula</h2>
+
+  <br>
+  DNI:
+  <br>
+  <input id="dniM" type="text" name="dniM" value="2323B">
+  <br>
+  Codigo:
+  <br>
+  <input id="codigoM" type="text" name="codigoM" value="63">
+  <br><br>
+  <button onclick="hacerMatr()">HacerMatricula</button>
+  <br>
+
+  <br>
+  <input id="dniGP" placeholder="DNI Persona" type="text">
+  <br>
+  <button onclick="getPers()">GetPersona</button>
+  <br>
+  <input id="nombreGP" type="text" placeholder="Nombre Persona">
+  <br>
+  <input id="apellidosGP" type="text" placeholder="Apellidos Persona">
+  <br>
+
+  <br>
+  <input id="codigoAP" placeholder="Código Asignatura" type="text">
+  <br>
+  <button onclick="getAsignatura()">GetAsignatura</button>
+  <br>
+  <input id="nombreAP" type="text" placeholder="Nombre Asignatura">
+
+
+</body>
+
+</html>
