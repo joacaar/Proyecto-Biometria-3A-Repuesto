@@ -32,7 +32,7 @@ describe( "Test 1: insertar una Medición", function() {
   }) // it
 // ....................................................
 // ....................................................
-  it( "Puedo insertar una Medición",
+  it( "Puedo insertar y buscar una Medición",
   async function() {
     // insertamos una Medición
     await laLogica.insertarMedicion(
