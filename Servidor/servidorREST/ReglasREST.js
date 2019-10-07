@@ -55,7 +55,7 @@ servidorExpress.post('/insertarMedicion',
   servidorExpress.get('/ux/:plana', function( peticion, respuesta ){
       console.log( " servint html normal: " + peticion.params.plana )
 
-      var dir = 'C:/Users/EMILIO/Desktop/GTI/progr/javascript/prac6/ux/'
+      var dir = 'C:/Users/EMILIO/Documents/GitHub/Proyecto-Biometria-3A/Servidor/ux/'
       respuesta.sendfile( dir + peticion.params.plana);
   });
 

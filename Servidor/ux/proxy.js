@@ -1,6 +1,6 @@
 
 //var request = require ('request')
-const IP_PUERTO="http://localhost:8080"
+const IP_PUERTO="http://192.168.1.137:8080"
 
 //module.exports =
 class Proxy {
