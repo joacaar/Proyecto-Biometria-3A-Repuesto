@@ -9,7 +9,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "Test 1: insertar una persona", function() {
+describe( "Test 1: insertar una Medición", function() {
 // ....................................................
 // ....................................................
   var laLogica = null
@@ -32,32 +32,21 @@ describe( "Test 1: insertar una persona", function() {
   }) // it
 // ....................................................
 // ....................................................
-  it( "puedo insertar una persona",
+  it( "Puedo insertar una Medición",
   async function() {
-    await laLogica.insertarPersona(
-      {dni: "1234A", nombre: "Pepe",
-      apellidos: "García Pérez" } )
-      var res = await laLogica.buscarPersonaConDNI( "1234A" )
-      assert.equal( res.length, 1, "¿no hay un resulado?" )
-      assert.equal( res[0].dni, "1234A", "¿no es 1234A?" )
-      assert.equal( res[0].nombre, "Pepe", "¿no es Pepe?" )
+    // insertamos una Medición
+    await laLogica.insertarMedicion(
+      {mayor: 15, menor: 14,
+      fecha: "14/9" } )
+    // buscamos la Medición que hemos insertado
+      var res = await laLogica.buscarMedicionesPorFecha( "14/9" )
+    // miramos si los datos coinciden con los que nosotros hemos puesto
+      assert.equal( res[0].mayor, 15 )
+      assert.equal( res[0].menor, 14 )
   }) // it
 // ....................................................
 // ....................................................
-  it( "no puedo insertar una persona con dni que ya está",
-  async function() {
-    var error = null
-    try {
-      await laLogica.insertarPersona(
-        {dni: "1234A", nombre: "Pepa",
-        apellidos: "Pérez Pérez" } )
-      } catch( err ) {
-        error = err
-      }
-      assert( error, "¿Ha insertado el dni que ya estaba 1234A? (¿No ha pasado por el catch()?" )
-  }) // it
-// ....................................................
-// ....................................................
+
   it( "cerrar conexión a la base de datos",
   async function() {
     try {

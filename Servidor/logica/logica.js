@@ -10,7 +10,7 @@ module.exports = class Logica {
 
 
 // .................................................................
-// nombreBD: Texto
+// menorBD: Texto
 // -->
 // constructor () -->
 // .................................................................
@@ -27,7 +27,7 @@ constructor( nombreBD, cb ) {
 
 
 // .................................................................
-// nombreTabla:Texto
+// menorTabla:Texto
 // -->
 // borrarFilasDe() -->
 // .................................................................
@@ -45,22 +45,20 @@ borrarFilasDe( tabla ) {
 // borrarFilasDeTodasLasTablas() -->
 // .................................................................
 async borrarFilasDeTodasLasTablas() {
-  await this.borrarFilasDe( "Matricula" )
-  await this.borrarFilasDe( "Asignatura" )
-  await this.borrarFilasDe( "Persona" )
+  await this.borrarFilasDe( "Medicion" )
 } // ()
 
 
 // .................................................................
-// datos:{dni:Texto, nombre:Texto: apellidos:Texto}
+// datos:{mayor:entero, menor:entero: fecha:Texto}
 // -->
-// insertarPersona() -->
+// insertarMedicion() -->
 // .................................................................
-insertarPersona( datos ) {
+insertarMedicion( datos ) {
   var textoSQL =
-  'insert into Persona values( $dni, $nombre, $apellidos );'
-  var valoresParaSQL = { $dni: datos.dni, $nombre: datos.nombre,
-    $apellidos: datos.apellidos }
+  'insert into Medicion values( $mayor, $menor, $fecha );'
+  var valoresParaSQL = { $mayor: datos.mayor, $menor: datos.menor,
+    $fecha: datos.fecha }
     return new Promise( ( resolver, rechazar ) => {
       this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
         ( err ? rechazar( err ) : resolver( ) )
@@ -68,36 +66,9 @@ insertarPersona( datos ) {
     })
 } // ()
 
-// .................................................................
-// datos:{nombre:Texto, codigo:Texto}
-// -->
-// insertarAsignatura() -->
-// .................................................................
-insertarAsignatura( datos ) {
-  var textoSQL =
-  'insert into Asignatura values( $nombre, $codigo );'
-  var valoresParaSQL = { $nombre: datos.nombre, $codigo: datos.codigo }
-    return new Promise( ( resolver, rechazar ) => {
-      this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
-        ( err ? rechazar( err ) : resolver( ) )
-      })
-    })
-} // ()
-
-hacerMatricula( datos ){
-  var textoSQL =
-  'insert into Matricula values( $dni, $codigo );'
-  var valoresParaSQL = { $dni: datos.dni, $codigo: datos.codigo }
-    return new Promise( ( resolver, rechazar ) => {
-      this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
-        ( err ? rechazar( err ) : resolver( ) )
-      })
-    })
-}
-
-buscarMatricula( dni ){
-  var textoSQL = "select * from Matricula where dni=$dni";
-  var valoresParaSQL = { $dni: dni }
+buscarMedicionesPorFecha( fecha ){
+  var textoSQL = "select * from Medicion where fecha=$fecha";
+  var valoresParaSQL = { $fecha: fecha }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
@@ -106,85 +77,6 @@ buscarMatricula( dni ){
     })
 }
 
-buscarDniPorApellidos( apellidos ){
-  var textoSQL = "select dni from Persona where apellidos=$apellidos";
-  var valoresParaSQL = { $apellidos: apellidos }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-}
-
-buscarCodigosPorDni( dni ){
-  var textoSQL = "select codigo from Matricula where dni=$dni";
-  var valoresParaSQL = { $dni: dni }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-}
-
-buscarCodigosPorDni( dni ){
-  var textoSQL = "select codigo from Matricula where dni=$dni";
-  var valoresParaSQL = { $dni: dni }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-}
-
-// .................................................................
-// dni:Texto
-// -->
-// buscarPersonaPorDNI() <--
-// <--
-// {dni:Texto, nombre:Texto: apellidos:Texto}
-// .................................................................
-buscarPersonaConDNI( dni ){
-  var textoSQL = "select * from Persona where dni=$dni";
-  var valoresParaSQL = { $dni: dni }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-} // ()
-
-// .................................................................
-// codigo:Texto
-// -->
-// buscarPersonaPorDNI() <--
-// <--
-// {nombre:Texto, codigo:Texto}
-// .................................................................
-buscarAsignaturaConCodigo( codigo ) {
-  var textoSQL = "select * from Asignatura where codigo=$codigo";
-  var valoresParaSQL = { $codigo: codigo }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-} // ()
-
-buscarCodigosPorApellidosDirecto( apellidos ){
-  var textoSQL = "select Matricula.codigo from Persona, Matricula where Persona.apellidos = $apellidos and Matricula.dni = Persona.dni";
-  var valoresParaSQL = { $apellidos : apellidos }
-  return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.all( textoSQL, valoresParaSQL,
-      ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
-      })
-    })
-}
 
 // .................................................................
 // cerrar() -->
