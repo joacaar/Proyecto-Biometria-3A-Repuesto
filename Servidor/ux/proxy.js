@@ -23,7 +23,7 @@ class Proxy {
     })
   }
 
-  async getMedicionesPorFecha( fecha, callback ){
+  getMedicionesPorFecha( fecha, callback ){
 
     var myInit = { method: 'GET',
                    headers: {
