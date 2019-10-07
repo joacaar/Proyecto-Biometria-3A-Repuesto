@@ -8,6 +8,7 @@
 const express = require( 'express' )
 const bodyParser = require( 'body-parser' )
 const Logica = require( "../logica/Logica.js" )
+const cors = require('cors');
 
 // .....................................................................
 // .....................................................................
@@ -34,9 +35,13 @@ async function main() {
   // creo el servidor
   var servidorExpress = express();
 
+  servidorExpress.use(cors({credentials: true, origin: true}));
+
   // para poder acceder a la carga de la petición http
   // asumiendo que es JSON
-  servidorExpress.use ( bodyParser.text({type: 'application/json'}) );
+  servidorExpress.use (
+    bodyParser.text({type: 'application/json'})
+  );
 
   // cargo las reglas REST
   var reglas = require( "./ReglasREST.js");

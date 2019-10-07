@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quote Machine Generator!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<script type="text/javascript" src="../ux/proxy.js"></script>
+<script>
+
+  var elProxy = new Proxy();
+
+  function quanEsCarrega(){
+
+    console.log("Plana UX carregada.")
+
+  }
+
+  function insertarMedicionPlana(){
+
+    var mayor = document.getElementById('mayorA').value;
+    var menor = document.getElementById('menorA').value;
+    var fecha = document.getElementById('fechaA').value;
+
+    console.log("mayorA: " + mayor);
+    console.log("menorA: " + menor);
+    console.log("fechaA: "+ fecha);
+
+    elProxy.insertarMedicion(mayor, menor, fecha);
+
+  }
+
+  function getMedicionesPorFecha(){
+
+    var fecha = document.getElementById('fechaP').value;
+
+    console.log("fechaP: " + fecha);
+
+    elProxy.getMedicionesPorFecha(fecha, function(res){
+
+      console.log("mayorP: " + res[0].mayor);
+      console.log("menorP: " + res[0].menor);
+      console.log("fecha: " + res[0].fecha);
+
+      for( let i = 0; i < res.length; i++ ){
+
+        var inputMayor = document.createElement("INPUT"); // TEXTO QUE INDICA QUE ES EL NUMERO MAYOR
+        var mayor = document.createElement("INPUT"); // VALOR DEL NÚMERO MAYOR
+
+        inputMayor.setAttribute("value", "MAYOR" + (i + 1));
+
+        mayor.setAttribute("type", "text");
+        mayor.setAttribute("value", res[i].mayor);
+        mayor.setAttribute("id", "mayor" + (i + 1));
+
+        document.body.appendChild(inputMayor);
+        document.body.appendChild(mayor);
+
+        var inputMenor = document.createElement("INPUT"); // TEXTO QUE INDICA QUE ES EL NUMERO MENOR
+        var menor = document.createElement("INPUT"); // VALOR DEL NÚMERO MENOR
+
+        inputMenor.setAttribute("value", "MENOR" + (i + 1));
+
+        menor.setAttribute("type", "text");
+        menor.setAttribute("value", res[i].menor);
+        menor.setAttribute("id", "menor" + (i + 1));
+
+        document.body.appendChild(inputMenor);
+        document.body.appendChild(menor);
+
+      }
+
+    });
+
+  }
+
+
+</script>
+
+<body>
+
+<h2>Insertar Medición</h2>
+
+  Mayor:
+  <br>
+  <input id="mayorA" type="number" value = 14>
+  <br>
+  Codigo:
+  <br>
+  <input id="menorA" type="number" value= 13>
+  <br>
+  Fecha:
+  <br>
+  <input id="fechaA" type"text" value = "2:2">
+  <br>
+  <br>
+  <button onclick="insertarMedicionPlana()">Inserta Medición</button>
+
+<br>
+
+<h2>Ver Medición</h2>
+
+  Fecha:
+  <br>
+  <input id="fechaP" type="text" value="2:2">
+  <br>
+  <br>
+  <button onclick="getMedicionesPorFecha()"> Obtener Medición </button>
+
+<br>
+
+</body>
+
+</html>
