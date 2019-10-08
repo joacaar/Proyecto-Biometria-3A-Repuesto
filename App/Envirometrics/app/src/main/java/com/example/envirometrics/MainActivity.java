@@ -20,8 +20,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.e("--- DEBUG BT ---", "Inicio del programa");
+
         //Inicializamos el escaner
         myScan = new BleDeviceScan(this);
+        myScan.borrar = 3;
+
+        Log.e("--- DEBUG BT ---", "Inicializamos myScan");
 
         // Comprobamos que el dispositivo tenga el BT On.
         if(myScan.checkBleOn() != null) {
@@ -32,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         Button scanBoton = findViewById(R.id.scan);
         scanBoton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("---BT---", "Boton de escaneo pulsado");
-                startScan();
+                Log.e("--- DEBUG BT ---", "Boton escanear pulsado");
+                myScan.startScan();
+                Log.e("--- DEBUG BT ---", "Despues de la llamada a startScan()");
+                //new EscanerSegundoPlano().execute(myScan);//Ejecutamos la tarea asincrona para buscar dispositivos
+                Log.e("--- DEBUG BT ---", "A ver cuando se ejecuta esto");
             }
         });
 
@@ -42,18 +50,8 @@ public class MainActivity extends AppCompatActivity {
         stopBoton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("---BT---", "Boton de stop pulsado");
-                stopScan();
+                myScan.stopScan();
             }
         });
-    }
-
-    // Funcion que llama al metodo startScan del objeto myScan para que empieze a escanear
-    public void startScan(){
-        myScan.startScan();
-    }
-
-    // Funcion que llama al metodo stopScan para parar el escaneo
-    public void stopScan(){
-        myScan.stopScan();
     }
 }

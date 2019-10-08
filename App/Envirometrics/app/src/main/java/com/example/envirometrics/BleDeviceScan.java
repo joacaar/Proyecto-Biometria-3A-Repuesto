@@ -15,14 +15,17 @@ public class BleDeviceScan {
     private BluetoothAdapter mBluetoothAdapter;
     private Context mContext;
 
-    private ArrayList<BluetoothDevice> deviceList = new ArrayList<>();
-    private ArrayList<String> macList = new ArrayList<>();
+    private TramaIBeacon laTrama;
+    public int borrar;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
 
     private final String MI_UUID = "EPSG-GTI-PROY-E2";
 
+    //----------------------------------------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------------------------------------
     public BleDeviceScan(Context context_) {
 
         this.mContext = context_;
@@ -31,6 +34,18 @@ public class BleDeviceScan {
         bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
     }
+
+    //----------------------------------------------------------------------------------------------
+    // Metodos Getters and Setters
+    //----------------------------------------------------------------------------------------------
+
+    public TramaIBeacon getTrama (){
+        return laTrama;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Funciones y metodos para la busqueda y filtrado de dispositivos BTLE
+    //----------------------------------------------------------------------------------------------
 
     // Metodo que comprueba si el BT esta encendido y en el caso que no lo este devuelve un intent
     // para mostrar un activity para pedirle al usuario que lo encienda.
@@ -43,45 +58,20 @@ public class BleDeviceScan {
         }
         return null;
     }
-/*
-    public void scanLeDevice(final boolean enable) {
-        if (enable) {
-            // Stops scanning after a pre-defined scan period.
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                }
-            }, SCAN_PERIOD);
-            mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
-        } else {
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-        }
-    }
-*/
 
     //Da comienzo el escaneo
     public void startScan(){
-        Log.d("Comprobacion","dentro del metodo startScan de la clase BleDeviceScan");
+        Log.e("--- DEBUG BT ---", "DEntro de startScan()");
         //ScanDevice();
-        if(!mBluetoothAdapter.isDiscovering())
-        mBluetoothAdapter.startLeScan(mLeScanCallback);
+        //if(!mBluetoothAdapter.isDiscovering())
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
+        Log.e("--- DEBUG BT ---", "DEspues de llamar al callback");
     }
 
     //Para el escaneo
     public void stopScan(){
-
-        Log.d("Comprobacion","dentro del metodo stopScan de la clase BleDeviceScan");
         mBluetoothAdapter.stopLeScan(mLeScanCallback);
     }
-
-    //----------------------------------------------------------------------------------------------
-    // Funciones y metodos para la busqueda y filtrado de dispositivos BTLE
-    //----------------------------------------------------------------------------------------------
-
 
     //Filtro para obtener el dispositivo deseado de entre todos los encontrados
     //UUID>>
@@ -95,87 +85,29 @@ public class BleDeviceScan {
         return null;
     }
 
-
-    int contador = 0;
+    //----------------------------------------------------------------------------------------------
+    // Funciones callback
+    //----------------------------------------------------------------------------------------------
 
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
 
-                @Override
+                @Override //cada vez que descubre un dispositivo ejecuta la fucnion onLeScan
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                    Log.e("--- DEBUG BT ---", "DEntro de onLeScan");
+                    TramaIBeacon tramaAux = filtrarPorUUID(MI_UUID, scanRecord);
+                    Log.e("--- DEBUG BT ---", "Despues de filtrar los dispositivos encontrados");
 
-                    TramaIBeacon laTrama = filtrarPorUUID(MI_UUID, scanRecord);
+                    if(tramaAux!= null) {
+                        Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(tramaAux.getMajor()));
+                        Log.e("--- Minor Bluetooth ---", "Minor: " + Utilidades.bytesToInt(tramaAux.getMinor()));
 
-                    if(laTrama!= null) {
-                        Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(laTrama.getMajor()));
-                        Log.e("--- Minor Bluetooth ---", "Minor: " + Utilidades.bytesToInt(laTrama.getMinor()));
+                        laTrama = tramaAux;
                         stopScan();
                     }
-
                 }
             };
-    /*
-    cada vez que descubre un dispositivo ejecuta la fucnion onLeScan, la cual añade el dispositivo a una lista
-    para posteriormente comprobar si el que encuentra ya esta en la lista y no repetir el procesa.
-
-    Por ahora almacena la mac del dispositivo encontrado en otra lista para hacer un filtrado por mac
-
-    Cuando encuentra el dispositivo deseado obtiene la trama.
-     */
-
-
-
-    /*
-    Utilizando las siguientes funciones se necesita una API igual o superior a la 21
-     */
-/*
-    public void ScanDevice (){
-        Log.d("Debug", "Al inicio de la funcion ScanDevice");
-        BluetoothLeScanner btScanner = mBluetoothAdapter.getBluetoothLeScanner(); //Necesita API min 21
-        ScanFilter.Builder builder = new ScanFilter.Builder(); //creamos el filtro para que solo aparezcan los dispositivos con el uuid especificado
-
-        Log.d("Debug", "Despues de crear el builder");
-
-        UUID uuid = UUID.fromString("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"); //Especificamos el uuid
-        ParcelUuid pUUid = new ParcelUuid(uuid);
-        builder.setServiceUuid(pUUid);
-
-        Log.d("Debug", "Punto 3");
-
-        Vector<ScanFilter> filters = new Vector<ScanFilter>();//agrupamos los filtros para pasarlos como parametro en este tipo
-        filters.add(builder.build());
-
-        Log.d("Debug", "Punto 4");
-
-        // Configuramos ciertos parametros de escaner
-        ScanSettings.Builder builderScanSettings = new ScanSettings.Builder();
-        builderScanSettings.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
-        builderScanSettings.setReportDelay(0);
-
-        Log.d("Debug", "Punto 5");
-
-        //Comenzamos a escanear
-        btScanner.startScan(filters, builderScanSettings.build(), mScanCallback);
-    }
-
-
-    public ScanCallback mScanCallback = new ScanCallback(){
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            Log.d("Debug", "Al inicio del callback");
-            super.onScanResult(callbackType, result);
-
-            Log.e("---BT V.21---", result.toString());
-        }
-
-        @Override
-        public void onScanFailed (int errorCode){
-            super.onScanFailed(errorCode);
-            Log.e("---BT Error---", String.valueOf(errorCode));
-        }
-    };
- */
 }
 
 
