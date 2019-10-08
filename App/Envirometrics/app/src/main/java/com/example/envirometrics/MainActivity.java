@@ -1,8 +1,12 @@
 package com.example.envirometrics;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pedirPermisoGPS();
 
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
@@ -53,5 +59,27 @@ public class MainActivity extends AppCompatActivity {
                 myScan.stopScan();
             }
         });
+    }
+
+    public void pedirPermisoGPS(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    3);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
+        if(respuesta==3){
+            if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
+
+            }else{
+                finish();
+                //System.exit(0);
+            }
+        }
     }
 }
