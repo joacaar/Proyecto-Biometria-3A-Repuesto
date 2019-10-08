@@ -35,14 +35,21 @@ describe( "Test 1: insertar una Medición", function() {
   it( "Puedo insertar y buscar una Medición",
   async function() {
     // insertamos una Medición
-    await laLogica.insertarMedicion(
-      {mayor: 15, menor: 14,
-      fecha: "14/9" } )
-    // buscamos la Medición que hemos insertado
-      var res = await laLogica.buscarMedicionesPorFecha( "14/9" )
+    await laLogica.insertarMedicion({
+      medidaCO: 15, hora: "15:00",
+      fecha: "14:9"
+    })
+    // probamos buscarMedicionesPorFecha
+      var res = await laLogica.buscarMedicionesPorFecha( "14:9" )
     // miramos si los datos coinciden con los que nosotros hemos puesto
-      assert.equal( res[0].mayor, 15 )
-      assert.equal( res[0].menor, 14 )
+      assert.equal( res[0].medidaCO, 15 )
+      assert.equal( res[0].hora, "15:00" )
+    // probamos buscarMedicionesPorFechaYHora
+      var res2 = await laLogica.buscarMedicionesPorFechaYHora({
+        fecha: "14:9", hora: "15:00"
+      })
+    //miramos si los datos coinciden con los que nosotros hemos puesto
+      assert.equal( res2[0].medidaCO, 15);
   }) // it
 // ....................................................
 // ....................................................

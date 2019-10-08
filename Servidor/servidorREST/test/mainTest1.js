@@ -16,7 +16,8 @@ describe( "Test 1 : Recuerda arrancar el servidor", function() {
   // ....................................................
 
   it( "probar POST /insertarMedicion", function( hecho ) {
-    var datosPersona = { mayor : 21, menor : 5, fecha : "14:15"
+    var datosPersona = {
+      medidaCO : 74, hora : "13:55", fecha : "18:1:2019"
     }
     request.post(
       { url : IP_PUERTO+"/insertarMedicion",
@@ -36,14 +37,14 @@ describe( "Test 1 : Recuerda arrancar el servidor", function() {
 // PROBAMOS GET /medicion/<fecha>
 // ....................................................
 
-it( "GET /medicion/14:15 responde con la Medicion hecha en esa fecha", function( hecho ) {
+it( "GET /medicion/18:1:2019 responde con la Medicion hecha en esa fecha", function( hecho ) {
   request.get(
-    { url : IP_PUERTO+"/medicion/14:15", headers : { 'User-Agent' : 'jordi' }},
+    { url : IP_PUERTO+"/medicion/18:1:2019", headers : { 'User-Agent' : 'jordi' }},
     function( err, respuesta, carga ) {
       var json = JSON.parse(carga);
       assert.equal( err, null, "¿ha habido un error?" )
       assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( json[0].mayor, 21, "¿El mayor es 21?" + json[0].mayor )
+      assert.equal( json[0].medidaCO, 74, "¿La medida es 74?" + json[0].medidaCO )
       hecho()
     } // callback()
   ) // .get

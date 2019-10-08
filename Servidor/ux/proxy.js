@@ -1,16 +1,29 @@
 
 //var request = require ('request')
-const IP_PUERTO="http://192.168.1.137:8080"
+const IP_PUERTO="http://localhost:8080"
 
+// --------------------------------------------------------------------------
 //module.exports =
+//---------------------------------------------------------------------------
 class Proxy {
 
+  // ------------------------------------------------------------------------
+  // constructor()
+  // -------------------------------------------------------------------------
   constructor(){
     console.log("Soy un proxy")
   }
 
-  insertarMedicion( mayorP, menorP, fechaP ){
-      var data = {mayor: mayorP, menor: menorP, fecha: fechaP};
+//---------------------------------------------------------------------------
+// valor:R -> insertarMedicionCO() ->
+//----------------------------------------------------------------------------
+  insertarMedicionCO( datos ){
+
+      var data = {
+        medidaCO: datos.medidaCO,
+        hora: datos.hora,
+        fecha: datos.fecha
+      };
 
       fetch(IP_PUERTO+"/insertarMedicion", {
       method: 'POST', // or 'PUT'
@@ -21,8 +34,12 @@ class Proxy {
     }).then( (res) =>{
       console.log(res)
     })
+
   }
 
+  //----------------------------------------------------------------------------
+  // Texto --> getMedicionesPorFecha() --> JSON{ medidaCO: R, hora: Texto, fecha: Texto }
+  //----------------------------------------------------------------------------
   getMedicionesPorFecha( fecha, callback ){
 
     var myInit = { method: 'GET',
@@ -42,6 +59,30 @@ class Proxy {
     })
 
   }
+
+//----------------------------------------------------------------------------
+// JSON{ fecha: Texto, hora: Texto } --> getMedicionesPorFechaYHora()
+// --> JSON{ medidaCO: R, hora: Texto, fecha: Texto }
+//----------------------------------------------------------------------------
+  /*getMedicionesPorFechaYHora( datos, callback ){
+
+    var myInit = { method: 'GET',
+                   headers: {
+                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+                   },
+                   mode: 'cors',
+                   cache: 'default' };
+
+
+    fetch(IP_PUERTO+"/medicion/" + datos.fecha + "/" + datos.hora, myInit)
+    .then((res)=>{
+      return res.json();
+    })
+    .then((data)=>{
+      callback(data);
+    })
+
+  }*/
 
 
 }

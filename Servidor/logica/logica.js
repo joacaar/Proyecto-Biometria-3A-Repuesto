@@ -56,8 +56,8 @@ async borrarFilasDeTodasLasTablas() {
 // .................................................................
 insertarMedicion( datos ) {
   var textoSQL =
-  'insert into Medicion values( $mayor, $menor, $fecha );'
-  var valoresParaSQL = { $mayor: datos.mayor, $menor: datos.menor,
+  'insert into Medicion values( $medidaCO, $hora, $fecha );'
+  var valoresParaSQL = { $medidaCO: datos.medidaCO, $hora: datos.hora,
     $fecha: datos.fecha }
     return new Promise( ( resolver, rechazar ) => {
       this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
@@ -69,6 +69,17 @@ insertarMedicion( datos ) {
 buscarMedicionesPorFecha( fecha ){
   var textoSQL = "select * from Medicion where fecha=$fecha";
   var valoresParaSQL = { $fecha: fecha }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
+
+buscarMedicionesPorFechaYHora( datos ){
+  var textoSQL = "select * from Medicion where fecha=$fecha and hora=$hora";
+  var valoresParaSQL = { $fecha: datos.fecha, $hora: datos.hora }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
