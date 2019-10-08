@@ -6,7 +6,7 @@ class SensorCO
 
     //variables privadas de la clase:
     //guardadas por el sensor
-    double medida;
+    long medida;
     String hora;
     String fecha;
 
@@ -16,10 +16,11 @@ class SensorCO
     double factorCalibracion;
 
     //Funciones privada del la clase
-    //--------------------------
-    //  cacharroDimeloTodo()
-    //                  -> R, texto, texto
-    //--------------------------
+
+    //-------------------------
+    //    cacharroDimeloTodo()
+    //              ->Z, Texto, Texto
+    //-------------------------
     void cacharroDimeloTodo()
     {
       medida = random(0, 10) + factorCalibracion;
@@ -27,26 +28,28 @@ class SensorCO
       fecha = "2019/10/06";
     }
 
+    //-------------------------------------
+    //-------------------------------------
 
-    //-------------------------------------
-    //-------------------------------------
   public:
 
     //--------------------------
     //    constructor()
     //--------------------------
-    SensorCO ()
+    SensorCO (double factor)
     {
       tx = 3;
       rx = 2;
+      setFactorCalibracion(factor);
     }
 
     //--------------------------
     //    medirCO()
     //          ->R
     //--------------------------
-    double medirCO()
+    int medirCO()
     {
+      cacharroDimeloTodo();
       return (*this).medida;
     }
 
@@ -56,6 +59,7 @@ class SensorCO
     //--------------------------
     String dimeHora()
     {
+      cacharroDimeloTodo();
       return (*this).hora;
     }
 
@@ -65,10 +69,10 @@ class SensorCO
     //--------------------------
     String dimeFecha()
     {
+      cacharroDimeloTodo();
       return (*this).fecha;
     }
 
-    
     //--------------------------
     // ->R
     //    setFactorCalibracion()
