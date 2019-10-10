@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static int REQUEST_BLUETOOTH = 1;
 
+    public LogicaFake laLogicaFake;
     public BleDeviceScan myScan;
     private BluetoothAdapter bluetoothAdapter;
 
@@ -24,18 +25,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pedirPermisoGPS();
+        /*pedirPermisoGPS();
 
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
         //Inicializamos el escaner
         myScan = new BleDeviceScan(this);
-        myScan.borrar = 3;
+        myScan.borrar = 3;*/
+        laLogicaFake = new LogicaFake( this );
 
         Log.e("--- DEBUG BT ---", "Inicializamos myScan");
 
         // Comprobamos que el dispositivo tenga el BT On.
-        if(myScan.checkBleOn() != null) {
+/*        if(myScan.checkBleOn() != null) {
             startActivityForResult(myScan.checkBleOn(), REQUEST_BLUETOOTH);
         }
 
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("---BT---", "Boton de stop pulsado");
                 myScan.stopScan();
+            }
+        });
+*/
+        Button anunciarCo = findViewById(R.id.anunciarCO);
+        anunciarCo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                anunciarCO();
             }
         });
     }
@@ -81,5 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 //System.exit(0);
             }
         }
+    }
+
+    public void anunciarCO(){
+
+        laLogicaFake.anunciarCOClickBoton( 8, "11:38", "10:10:2019");
+
     }
 }
