@@ -51,7 +51,7 @@ public class PeticionarioREST {
                             @Override
                             public void onErrorResponse(VolleyError error)
                             {
-                                Log.d("Error al conectar con servidor", error.toString());
+                                Log.d("Error conectar servidor", error.toString());
                             }
                         });
 

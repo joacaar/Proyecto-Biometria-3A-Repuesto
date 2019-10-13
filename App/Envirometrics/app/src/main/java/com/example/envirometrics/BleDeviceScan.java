@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static android.content.Context.BLUETOOTH_SERVICE;
 
 public class BleDeviceScan {
 
@@ -20,18 +23,19 @@ public class BleDeviceScan {
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
-
     private final String MI_UUID = "EPSG-GTI-PROY-E2";
+//    private final String MI_UUID = "EPSG-GTI-PROY-E2";
 
     //----------------------------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------------------------
+
     public BleDeviceScan(Context context_) {
 
         this.mContext = context_;
         //mHandler = new Handler();
 
-        bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
+        bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
     }
 
@@ -103,7 +107,9 @@ public class BleDeviceScan {
                         Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(tramaAux.getMajor()));
                         Log.e("--- Minor Bluetooth ---", "Minor: " + Utilidades.bytesToInt(tramaAux.getMinor()));
 
-                        laTrama = tramaAux;
+                        LogicaFake myLogic = new LogicaFake(mContext); //Hacerlo variable privada de la clase y no llamar al constructor cada vez
+                        Calendar cal = Calendar.getInstance();
+                        myLogic.anunciarCO(Utilidades.bytesToInt(tramaAux.getMajor()), "11:10", "11:10:2019");
                         stopScan();
                     }
                 }

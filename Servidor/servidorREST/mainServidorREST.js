@@ -30,7 +30,7 @@ function cargarLogica( fichero ) {
 // .....................................................................
 async function main() {
 
-  var laLogica = await cargarLogica( "../bd/datos.bd" );
+  var laLogica = await cargarLogica( "../bd/datos.db" );
 
   // creo el servidor
   var servidorExpress = express();

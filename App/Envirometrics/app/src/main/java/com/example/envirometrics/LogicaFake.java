@@ -1,6 +1,7 @@
 package com.example.envirometrics;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 public class LogicaFake {
 
     private PeticionarioREST elPeticionario;
-    String laUrlDelServidor = "http://10.236.32.146:8080/";
+    String laUrlDelServidor = "http://192.168.137.186:8080/";
 
     LogicaFake(Context elContexto){
 
@@ -28,6 +29,7 @@ public class LogicaFake {
         JSONObject eljson = new JSONObject(params);
         elPeticionario.postJSONHTTP("insertarMedicion", eljson);
 
+        Log.e("--- Server ---", "post enviado");
     }
 
     void anunciarCOClickBoton(int medidaCO, String hora, String fecha){

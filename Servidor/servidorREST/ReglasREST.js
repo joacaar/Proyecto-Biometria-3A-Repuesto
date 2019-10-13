@@ -72,6 +72,7 @@ servidorExpress.post('/insertarMedicion',
     laLogica.insertarMedicion(datos);
 
     respuesta.send( "OK" );
+	console.log("Peticion POST insertarMedicion recibida");
   }) // post / insertarPersona
 
 
