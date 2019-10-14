@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,19 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*pedirPermisoGPS();
+        pedirPermisoGPS();
 
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
         //Inicializamos el escaner
         myScan = new BleDeviceScan(this);
-        myScan.borrar = 3;*/
         laLogicaFake = new LogicaFake( this );
 
         Log.e("--- DEBUG BT ---", "Inicializamos myScan");
 
         // Comprobamos que el dispositivo tenga el BT On.
-/*        if(myScan.checkBleOn() != null) {
+        if(myScan.checkBleOn() != null) {
             startActivityForResult(myScan.checkBleOn(), REQUEST_BLUETOOTH);
         }
 
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 myScan.stopScan();
             }
         });
-*/
+
         Button anunciarCo = findViewById(R.id.anunciarCO);
         anunciarCo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -87,14 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
             }else{
                 finish();
-                //System.exit(0);
             }
         }
     }
 
     public void anunciarCO(){
-
-        laLogicaFake.anunciarCOClickBoton( 8, "11:38", "10:10:2019");
-
+        Calendar cal = Calendar.getInstance();
+        laLogicaFake.anunciarCOClickBoton( 8, "11:08", "11:10:2019");
     }
 }
