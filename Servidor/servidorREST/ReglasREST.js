@@ -80,7 +80,7 @@ servidorExpress.post('/insertarMedicion',
       console.log( " servint html normal: " + peticion.params.plana )
 
       var dir = 'C:/Users/EMILIO/Documents/GitHub/Proyecto-Biometria-3A/Servidor/ux/'
-      respuesta.sendfile( dir + peticion.params.plana);
+      respuesta.sendFile( dir + peticion.params.plana);
   });
 
 } // cargar()
