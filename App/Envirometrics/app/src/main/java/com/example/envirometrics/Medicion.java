@@ -1,12 +1,6 @@
 package com.example.envirometrics;
 
-import android.os.Build;
-
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
-
-import androidx.annotation.RequiresApi;
 
 public class Medicion {
 
