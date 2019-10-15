@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         pedirPermisoGPS();
 
+        LocalizadorGPS localizador = new LocalizadorGPS(this);
+        localizador.ObtenerMiPosicionGPS();
+
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
         //Inicializamos el escaner
