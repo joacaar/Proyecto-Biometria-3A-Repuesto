@@ -68,7 +68,7 @@ servidorExpress.post('/insertarMedicion',
     console.log( " * POST /insertarMedicion " )
     var datos = JSON.parse( peticion.body )
     // supuesto procesamiento
-
+	console.log(peticion.body);
     laLogica.insertarMedicion(datos);
 
     respuesta.send( "OK" );

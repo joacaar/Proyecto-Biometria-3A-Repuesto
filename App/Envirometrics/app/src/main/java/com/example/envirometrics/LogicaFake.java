@@ -11,7 +11,7 @@ import java.util.Map;
 public class LogicaFake {
 
     private PeticionarioREST elPeticionario;
-    String laUrlDelServidor = "http://192.168.137.186:8080/";
+    String laUrlDelServidor = "http://192.168.1.15:8080/";
 
     LogicaFake(Context elContexto){
 
@@ -19,12 +19,14 @@ public class LogicaFake {
 
     }
 
-    void anunciarCO( int medidaCO, String hora, String fecha ){
+    void anunciarCO( Medicion medicion){
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("medidaCO", String.valueOf(medidaCO));
-        params.put("hora", hora);
-        params.put("fecha", fecha);
+        params.put("medidaCO", String.valueOf(medicion.getMedidaCO()));
+        params.put("hora", medicion.getHora());
+        params.put("fecha", medicion.getFecha());
+        params.put("latitud", String.valueOf(medicion.getLatitud()));
+        params.put("longitud", String.valueOf(medicion.getLongitud()));
 
         JSONObject eljson = new JSONObject(params);
         elPeticionario.postJSONHTTP("insertarMedicion", eljson);
@@ -32,8 +34,8 @@ public class LogicaFake {
         Log.e("--- Server ---", "post enviado");
     }
 
-    void anunciarCOClickBoton(int medidaCO, String hora, String fecha){
-        this.anunciarCO(medidaCO, hora, fecha);
+    void anunciarCOClickBoton(Medicion medicion){
+        this.anunciarCO(medicion);
     }
 
 }

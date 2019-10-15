@@ -20,6 +20,8 @@ public class ReceptorBLE {
 
     private TramaIBeacon laTrama;
     LogicaFake myLogic ;
+    private Medicion medicion;
+    private LocalizadorGPS localizador;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
@@ -35,6 +37,11 @@ public class ReceptorBLE {
         this.mContext = context_;
         //mHandler = new Handler();
         myLogic = new LogicaFake(mContext);
+
+        medicion = new Medicion();
+
+        localizador = new LocalizadorGPS(mContext);
+        localizador.ObtenerMiPosicionGPS();
 
         bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -75,7 +82,13 @@ public class ReceptorBLE {
 
     public void actualizarMediciones( TramaIBeacon trama){
 
-        myLogic.anunciarCO(Utilidades.bytesToInt(trama.getMajor()), "11:10", "11:10:2019");
+        medicion.setMedidaCO(Utilidades.bytesToInt(trama.getMajor()));
+        medicion.setFecha(Medicion.averiguarFecha());
+        medicion.setHora(Medicion.averiguarHora());
+        medicion.setLatitud(localizador.getLatitud());
+        medicion.setLongitud(localizador.getLongitud());
+
+        myLogic.anunciarCO(medicion);
     }
 
     //Para el escaneo

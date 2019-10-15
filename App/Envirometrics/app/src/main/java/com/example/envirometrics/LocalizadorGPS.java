@@ -26,7 +26,7 @@ public class LocalizadorGPS {
     private Location ultimaPosicionMedida;
 
     //Minimo tiempo para updates en Milisegundos
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 100; // 10 metros
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
 

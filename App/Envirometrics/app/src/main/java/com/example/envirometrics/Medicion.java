@@ -7,16 +7,24 @@ public class Medicion {
     private String hora;
     private String fecha;
     private int medidaCO;
+    private double latitud;
+    private double longitud;
 
+
+    public Medicion(){
+
+    }
     //-----------------------------------
     // Z, Texto, Texto --> Medicion()
     //-----------------------------------
-    public Medicion( int _medidaCO, String _hora, String _fecha ){
+    public Medicion(int _medidaCO, String _hora, String _fecha, double latitud, double longitud){
 
         this.medidaCO = _medidaCO;
         this.hora = _hora;
         this.fecha = _fecha;
 
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     //-----------------------------------
@@ -29,7 +37,7 @@ public class Medicion {
     //-----------------------------------
     // averiguarFecha() --> Texto
     //-----------------------------------
-    public String averiguarFecha(){
+    public static String averiguarFecha(){
 
         Calendar calendario = Calendar.getInstance();
         int dia = calendario.get(Calendar.DATE);
@@ -43,7 +51,7 @@ public class Medicion {
     //-----------------------------------
     // averiguarHora() --> Texto
     //-----------------------------------
-    public String averiguarHora(){
+    public static String averiguarHora(){
 
         Calendar calendario = Calendar.getInstance();
         int hora = calendario.get(Calendar.HOUR_OF_DAY);
@@ -51,6 +59,34 @@ public class Medicion {
         String tiempo = hora + ":" + minutos;
         return tiempo;
 
+    }
+
+    //-----------------------------------
+    // getLatitud() --> Real
+    //-----------------------------------
+    public double getLatitud() {
+        return latitud;
+    }
+
+    //-----------------------------------
+    // Real --> setLatitud()
+    //-----------------------------------
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    //-----------------------------------
+    // getLongitud() --> Real
+    //-----------------------------------
+    public double getLongitud() {
+        return longitud;
+    }
+
+    //-----------------------------------
+    // Real --> setLongitud()
+    //-----------------------------------
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 
     //-----------------------------------

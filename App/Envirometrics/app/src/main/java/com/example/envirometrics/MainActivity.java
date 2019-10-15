@@ -12,14 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity {
 
     public static int REQUEST_BLUETOOTH = 1;
 
     public LogicaFake laLogicaFake;
-    public ReceptorBLE myScan;
+    public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
 
     @Override
@@ -35,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
         //Inicializamos el escaner
-        myScan = new ReceptorBLE(this);
+        receptorBle = new ReceptorBLE(this);
         laLogicaFake = new LogicaFake( this );
 
-        Log.e("--- DEBUG BT ---", "Inicializamos myScan");
+        Log.e("--- DEBUG BT ---", "Inicializamos receptorBle");
 
         // Comprobamos que el dispositivo tenga el BT On.
-        if(myScan.checkBleOn() != null) {
-            startActivityForResult(myScan.checkBleOn(), REQUEST_BLUETOOTH);
+        if(receptorBle.checkBleOn() != null) {
+            startActivityForResult(receptorBle.checkBleOn(), REQUEST_BLUETOOTH);
         }
 
         //Cuando se pulsa el boton epieza a escanear llamando a la funcion obtenerCO()
@@ -50,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         scanBoton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.e("--- DEBUG BT ---", "Boton escanear pulsado");
-                myScan.obtenerCO();
+                receptorBle.obtenerCO();
                 Log.e("--- DEBUG BT ---", "Despues de la llamada a obtenerCO()");
-                //new EscanerSegundoPlano().execute(myScan);//Ejecutamos la tarea asincrona para buscar dispositivos
+                //new EscanerSegundoPlano().execute(receptorBle);//Ejecutamos la tarea asincrona para buscar dispositivos
                 Log.e("--- DEBUG BT ---", "A ver cuando se ejecuta esto");
             }
         });
@@ -62,16 +60,17 @@ public class MainActivity extends AppCompatActivity {
         stopBoton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("---BT---", "Boton de stop pulsado");
-                myScan.stopScan();
+                receptorBle.stopScan();
             }
         });
-
+/*
         Button anunciarCo = findViewById(R.id.anunciarCO);
         anunciarCo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 anunciarCO();
             }
         });
+*/
     }
 
     public void pedirPermisoGPS(){
@@ -95,8 +94,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void anunciarCO(){
-        Calendar cal = Calendar.getInstance();
-        laLogicaFake.anunciarCOClickBoton( 8, "11:08", "11:10:2019");
-    }
 }
