@@ -12,14 +12,14 @@ import java.util.Calendar;
 
 import static android.content.Context.BLUETOOTH_SERVICE;
 
-public class BleDeviceScan {
+public class ReceptorBLE {
 
     private final BluetoothManager bluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private Context mContext;
 
     private TramaIBeacon laTrama;
-    public int borrar;
+    LogicaFake myLogic ;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
@@ -30,10 +30,11 @@ public class BleDeviceScan {
     // Constructor
     //----------------------------------------------------------------------------------------------
 
-    public BleDeviceScan(Context context_) {
+    public ReceptorBLE(Context context_) {
 
         this.mContext = context_;
         //mHandler = new Handler();
+        myLogic = new LogicaFake(mContext);
 
         bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -64,12 +65,17 @@ public class BleDeviceScan {
     }
 
     //Da comienzo el escaneo
-    public void startScan(){
-        Log.e("--- DEBUG BT ---", "DEntro de startScan()");
+    public void obtenerCO(){
+        Log.e("--- DEBUG BT ---", "Dentro de obtenerCO()");
         //ScanDevice();
         //if(!mBluetoothAdapter.isDiscovering())
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         Log.e("--- DEBUG BT ---", "DEspues de llamar al callback");
+    }
+
+    public void actualizarMediciones( TramaIBeacon trama){
+
+        myLogic.anunciarCO(Utilidades.bytesToInt(trama.getMajor()), "11:10", "11:10:2019");
     }
 
     //Para el escaneo
@@ -107,9 +113,8 @@ public class BleDeviceScan {
                         Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(tramaAux.getMajor()));
                         Log.e("--- Minor Bluetooth ---", "Minor: " + Utilidades.bytesToInt(tramaAux.getMinor()));
 
-                        LogicaFake myLogic = new LogicaFake(mContext); //Hacerlo variable privada de la clase y no llamar al constructor cada vez
-                        Calendar cal = Calendar.getInstance();
-                        myLogic.anunciarCO(Utilidades.bytesToInt(tramaAux.getMajor()), "11:10", "11:10:2019");
+                        laTrama = tramaAux;
+                        actualizarMediciones(tramaAux);
                         stopScan();
                     }
                 }

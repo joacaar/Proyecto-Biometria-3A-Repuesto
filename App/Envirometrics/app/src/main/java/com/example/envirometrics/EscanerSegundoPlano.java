@@ -3,12 +3,12 @@ package com.example.envirometrics;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class EscanerSegundoPlano extends AsyncTask<BleDeviceScan, Void, TramaIBeacon> {
+public class EscanerSegundoPlano extends AsyncTask<ReceptorBLE, Void, TramaIBeacon> {
     @Override
-    protected TramaIBeacon doInBackground(BleDeviceScan... voids) {
+    protected TramaIBeacon doInBackground(ReceptorBLE... voids) {
 
-        BleDeviceScan myScan = voids[0];
-        myScan.startScan();
+        ReceptorBLE myScan = voids[0];
+        myScan.obtenerCO();
         return myScan.getTrama();
     }
 
