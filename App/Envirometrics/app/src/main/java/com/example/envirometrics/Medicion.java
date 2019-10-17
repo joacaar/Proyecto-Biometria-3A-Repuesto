@@ -2,6 +2,11 @@ package com.example.envirometrics;
 
 import java.util.Calendar;
 
+/*
+Clase POJO para almacenar toda la infromacion relevante de una medida.
+Esta clase solo consta de dos constructores y los metodos getters and setters.
+ */
+
 public class Medicion {
 
     private String hora;

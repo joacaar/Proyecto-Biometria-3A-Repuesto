@@ -25,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Se piden los permisoso de localizacion o se comprueban que la app disponga de ellos
         pedirPermisoGPS();
 
+        //Se crea un objeto localizador y se obtiene la posicion al inicio
         LocalizadorGPS localizador = new LocalizadorGPS(this);
         localizador.ObtenerMiPosicionGPS();
 
         Log.e("--- DEBUG BT ---", "Inicio del programa");
 
-        //Inicializamos el escaner
+        //Inicializamos el receptor bluetooth y la logica que comunicara al servidor
         receptorBle = new ReceptorBLE(this);
         laLogicaFake = new LogicaFake( this );
 

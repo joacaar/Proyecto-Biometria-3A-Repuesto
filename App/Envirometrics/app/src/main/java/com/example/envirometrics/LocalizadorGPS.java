@@ -15,6 +15,10 @@ import androidx.core.app.ActivityCompat;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+/*
+Esta clase es para obtener la posicion del usuario para adjuntarla a la medida que se reciba del
+sensor y poder ubicar esa medida en un mapa.
+ */
 public class LocalizadorGPS {
 
     private Context mContext;
@@ -22,7 +26,6 @@ public class LocalizadorGPS {
     private static final String TAG = "LocalizadorGPS";
 
     private LocationManager mLocMgr;
-
     private Location ultimaPosicionMedida;
 
     //Minimo tiempo para updates en Milisegundos
@@ -30,6 +33,9 @@ public class LocalizadorGPS {
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
 
+    /*
+    Constructor del objeto localzadorGPS donde se inicializa el LocationManager
+     */
     public LocalizadorGPS(Context mContext){
         this.mContext = mContext;
         mLocMgr = (LocationManager) this.mContext.getSystemService(LOCATION_SERVICE);
@@ -40,6 +46,10 @@ public class LocalizadorGPS {
         }*/
     }
 
+    /*
+    Metodo que sera llamado al iniciar la aplicacion y posteriormente se actualizara la medicion
+    cada 100m o 10 min
+     */
     public void ObtenerMiPosicionGPS (){
 
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -71,15 +71,17 @@ public class ReceptorBLE {
         return null;
     }
 
-    //Da comienzo el escaneo
+    //Da comienzo el escaneo donde se llama al callback implementado al final de la clase para
+    // obtener la medida mediante bluetooth
     public void obtenerCO(){
         Log.e("--- DEBUG BT ---", "Dentro de obtenerCO()");
-        //ScanDevice();
-        //if(!mBluetoothAdapter.isDiscovering())
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         Log.e("--- DEBUG BT ---", "DEspues de llamar al callback");
     }
 
+    //Metodo que se llama en el callback y se ejecuta cada vez que se encuentra una trama
+    //almacenando en un objeto medidion todos los datos
+    //por ultimo llama a un metodo para que envie la informacion al servidor
     public void actualizarMediciones( TramaIBeacon trama){
 
         medicion.setMedidaCO(Utilidades.bytesToInt(trama.getMajor()));
@@ -112,7 +114,7 @@ public class ReceptorBLE {
     // Funciones callback
     //----------------------------------------------------------------------------------------------
 
-    // Device scan callback.
+    // Device scan callback. Se ejecuta cada vez que encuentra un dispositivo por bluetooth
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
 

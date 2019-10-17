@@ -19,6 +19,7 @@ public class LogicaFake {
 
     }
 
+    //Metodo encargado de pasar la informacion que recibe a un json y enviarla al servidor
     void anunciarCO( Medicion medicion){
 
         Map<String, String> params = new HashMap<String, String>();
@@ -34,6 +35,7 @@ public class LogicaFake {
         Log.e("--- Server ---", "post enviado");
     }
 
+    //Metodo para imlementar el metodo anterior en un boton
     void anunciarCOClickBoton(Medicion medicion){
         this.anunciarCO(medicion);
     }
