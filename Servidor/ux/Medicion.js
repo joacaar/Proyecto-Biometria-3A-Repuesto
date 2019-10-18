@@ -1,5 +1,6 @@
 // Autor: Emilio Esteve Peiro
-// Fecha de inicio: 18/10/2019
+// Fecha de inicio: 18/10/2019 . 21:00
+// Última actualización: 18/10/2019 . 21:09
 // Equipo 2
 
 class Medicion{
