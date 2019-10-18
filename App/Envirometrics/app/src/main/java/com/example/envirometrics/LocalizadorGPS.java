@@ -75,12 +75,18 @@ public class LocalizadorGPS {
 
     public double getLatitud(){
 
+        if(ultimaPosicionMedida != null)
         return ultimaPosicionMedida.getLatitude();
+        else
+            return 0.0;
     }
 
     public double getLongitud(){
 
+        if(ultimaPosicionMedida != null)
         return ultimaPosicionMedida.getLongitude();
+        else
+            return 0.0;
     }
 
 
