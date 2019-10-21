@@ -17,7 +17,7 @@ describe( "Test 1: insertar una Medición", function() {
 // ....................................................
   it( "conectar a la base de datos", function( hecho ) {
     laLogica = new Logica(
-      "../bd/datos.bd",
+      "../bd/datos.db",
       function( err ) {
         if ( err ) {
           throw new Error ("No he podido conectar con datos.db")
@@ -37,7 +37,8 @@ describe( "Test 1: insertar una Medición", function() {
     // insertamos una Medición
     await laLogica.insertarMedicion({
       medidaCO: 15, hora: "15:00",
-      fecha: "14:9"
+      fecha: "14:9", latitud: 0.0,
+      longitud: 0.0
     })
     // probamos buscarMedicionesPorFecha
       var res = await laLogica.buscarMedicionesPorFecha( "14:9" )

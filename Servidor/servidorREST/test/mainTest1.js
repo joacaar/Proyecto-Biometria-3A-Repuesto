@@ -17,7 +17,9 @@ describe( "Test 1 : Recuerda arrancar el servidor", function() {
 
   it( "probar POST /insertarMedicion", function( hecho ) {
     var datosPersona = {
-      medidaCO : 74, hora : "13:55", fecha : "18:1:2019"
+      medidaCO : 74, hora : "13:55",
+      fecha : "18:1:2019", latitud : 0.0,
+      longitud: 0.0
     }
     request.post(
       { url : IP_PUERTO+"/insertarMedicion",

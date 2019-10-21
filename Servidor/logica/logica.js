@@ -56,9 +56,9 @@ async borrarFilasDeTodasLasTablas() {
 // .................................................................
 insertarMedicion( datos ) {
   var textoSQL =
-  'insert into Medicion values( $medidaCO, $hora, $fecha );'
+  'insert into Medicion values( $medidaCO, $hora, $fecha, $latitud, $longitud );'
   var valoresParaSQL = { $medidaCO: datos.medidaCO, $hora: datos.hora,
-    $fecha: datos.fecha }
+    $fecha: datos.fecha, $latitud: datos.latitud, $longitud: datos.longitud }
     return new Promise( ( resolver, rechazar ) => {
       this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
         ( err ? rechazar( err ) : resolver( ) )

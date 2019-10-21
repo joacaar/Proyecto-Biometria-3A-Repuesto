@@ -22,7 +22,9 @@ class Proxy {
       var data = {
         medidaCO: datos.medidaCO,
         hora: datos.hora,
-        fecha: datos.fecha
+        fecha: datos.fecha,
+        latitud : datos.latitud,
+        longitud : datos.longitud
       };
 
       fetch(IP_PUERTO+"/insertarMedicion", {
