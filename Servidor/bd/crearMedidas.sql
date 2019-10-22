@@ -1,3 +1,7 @@
+// Autor: Emilio Esteve Peiró
+// Fecha de inicio: 23/10/2019
+// Última actualización: 23/10/2019
+
 create table Medidas(
   valorMedida REAL not null,
   tiempo INTEGER not null,
