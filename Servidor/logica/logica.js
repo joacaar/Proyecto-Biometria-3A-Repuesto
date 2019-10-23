@@ -45,7 +45,11 @@ borrarFilasDe( tabla ) {
 // borrarFilasDeTodasLasTablas() -->
 // .................................................................
 async borrarFilasDeTodasLasTablas() {
-  await this.borrarFilasDe( "Medicion" )
+  await this.borrarFilasDe( "Medidas" )
+  await this.borrarFilasDe( "Sensores" )
+  await this.borrarFilasDe( "Usuarios" )
+  await this.borrarFilasDe( "UsuarioSensor" )
+  await this.borrarFilasDe( "TipoSensores" )
 } // ()
 
 
@@ -54,21 +58,24 @@ async borrarFilasDeTodasLasTablas() {
 // -->
 // insertarMedicion() -->
 // .................................................................
-insertarMedicion( datos ) {
+insertarMedida( datos ) {
   var textoSQL =
-  'insert into Medicion values( $medidaCO, $hora, $fecha, $latitud, $longitud );'
-  var valoresParaSQL = { $medidaCO: datos.medidaCO, $hora: datos.hora,
-    $fecha: datos.fecha, $latitud: datos.latitud, $longitud: datos.longitud }
-    return new Promise( ( resolver, rechazar ) => {
-      this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
-        ( err ? rechazar( err ) : resolver( ) )
-      })
+  'insert into Medidas values( $valorMedida, $tiempo, $latitud, $longitud, $idMedida, $idUsuario, $idTipoMedida );'
+  var valoresParaSQL = {
+    $valorMedida: datos.valorMedida, $tiempo: datos.tiempo, $latitud: datos.latitud,
+    $longitud: datos.longitud, $idUsuario: datos.idUsuario,
+    $idTipoMedida: datos.idTipoMedida, $idMedida: datos.idMedida
+   }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+      ( err ? rechazar( err ) : resolver( ) )
     })
+  })
 } // ()
 
-buscarMedicionesPorFecha( fecha ){
-  var textoSQL = "select * from Medicion where fecha=$fecha";
-  var valoresParaSQL = { $fecha: fecha }
+buscarMedidasPorIdMedida( idMedida ){
+  var textoSQL = "select * from Medidas where idMedida=$idMedida";
+  var valoresParaSQL = { $idMedida: idMedida }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
@@ -77,15 +84,28 @@ buscarMedicionesPorFecha( fecha ){
     })
 }
 
-buscarMedicionesPorFechaYHora( datos ){
-  var textoSQL = "select * from Medicion where fecha=$fecha and hora=$hora";
-  var valoresParaSQL = { $fecha: datos.fecha, $hora: datos.hora }
+buscarUsuarioPorEmail( email ){
+  var textoSQL = "select * from Usuarios where email=$email";
+  var valoresParaSQL = { $email: email }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
         ( err ? rechazar( err ) : resolver( res ) )
       })
     })
+}
+
+darAltaUsuario( datos ){
+  var textoSQL =
+  'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
+  var valoresParaSQL = {
+     $idUsuario: datos.idUsuario, $email: datos.email, $password: datos.password, $telefono: datos.telefono
+  }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+            ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
 }
 
 

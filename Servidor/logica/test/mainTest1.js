@@ -25,32 +25,45 @@ describe( "Test 1: insertar una Medición", function() {
         hecho()
       })
     }) // it
+
 // ....................................................
 // ....................................................
-  it( "borrar todas las filas", async function() {
-    await laLogica.borrarFilasDeTodasLasTablas()
+  it( "Puedo dar de alta a un usuario",
+   async function() {
+
+     //DOY DE ALTA AL USUARIO
+     await laLogica.darAltaUsuario({
+       idUsuario: 15, email: "gg@gmail.com",
+       password: "1234", telefono: "123456789"
+     })
+
+     //BUSCO AL USUARIO POR SU EMAIL
+     var res = await laLogica.buscarUsuarioPorEmail("gg@gmail.com")
+
+     // COMPRUEBO QUE ES ESE USUARIO
+     assert.equal( res[0].idUsuario, 15, "El ID usuario es: " + res[0].idUsuario)
+
   }) // it
+  
 // ....................................................
 // ....................................................
   it( "Puedo insertar y buscar una Medición",
   async function() {
-    // insertamos una Medición
-    await laLogica.insertarMedicion({
-      medidaCO: 15, hora: "15:00",
-      fecha: "14:9", latitud: 0.0,
-      longitud: 0.0
+
+    // INSERTAMOS UNA MEDIDA
+    await laLogica.insertarMedida({
+      valorMedida: 15, tiempo: 100,
+      latitud: 0.0, longitud: 0.0,
+      idUsuario: 1, idTipoMedida: 1,
+      idMedida: 26
     })
-    // probamos buscarMedicionesPorFecha
-      var res = await laLogica.buscarMedicionesPorFecha( "14:9" )
-    // miramos si los datos coinciden con los que nosotros hemos puesto
-      assert.equal( res[0].medidaCO, 15 )
-      assert.equal( res[0].hora, "15:00" )
-    // probamos buscarMedicionesPorFechaYHora
-      var res2 = await laLogica.buscarMedicionesPorFechaYHora({
-        fecha: "14:9", hora: "15:00"
-      })
-    //miramos si los datos coinciden con los que nosotros hemos puesto
-      assert.equal( res2[0].medidaCO, 15);
+    // BUSCAMOS LA MEDIDA POR SU ID
+      var res = await laLogica.buscarMedidasPorIdMedida( 26 )
+
+    // COMPROBAMOS QUE LA MEDIDA QUE BUSCAMOS ES LA QUE HEMOS INSERTADO
+      assert.equal( res[0].valorMedida, 15 )
+      assert.equal( res[0].tiempo, 100 )
+
   }) // it
 // ....................................................
 // ....................................................
