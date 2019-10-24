@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 2: INSERTAR UNA MEDICIÓN", function() {
+describe( "TEST 3: INSERTAR UNA MEDICIÓN", function() {
 // ....................................................
 // ....................................................
 
@@ -61,7 +61,7 @@ describe( "TEST 2: INSERTAR UNA MEDICIÓN", function() {
 
       var res = await laLogica.getUltimaMedidaDeUnUsuario( 1 );
 
-      assert.equal( res.valorMedida, 15 )
+      assert.equal( res.valorMedida, 45 )
 
     // COMPROBAMOS QUE NOS DA LA ULTIMA MEDIDA QUE HEMOS INSERTADO
 

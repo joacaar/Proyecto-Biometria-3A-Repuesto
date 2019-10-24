@@ -101,7 +101,7 @@ async getUltimaMedidaDeUnUsuario( idUsuario ){
 
   return new Promise( ( resolver, rechazar ) =>{
     if( res.length > 0 ){
-      resolver( res[0] )
+      resolver( res[res.length - 1] )
     } else{
       rechazar( null )
     }
