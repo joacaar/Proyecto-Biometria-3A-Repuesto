@@ -2,7 +2,7 @@
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
 // Última actualización: 24/10/2019
-// mainTest1.js
+// mainTest2.js
 // ........................................................
 
 const Logica = require( "../Logica.js" )
@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 2: BORRAR FILAS DE LA BD", function() {
+describe( "TEST 1: DAR DE ALTA UN USUARIO", function() {
 // ....................................................
 // ....................................................
 
@@ -20,7 +20,6 @@ describe( "TEST 2: BORRAR FILAS DE LA BD", function() {
 
 // ....................................................
 // ....................................................
-
   it( "conectar a la base de datos", function( hecho ) {
     laLogica = new Logica(
       "../bd/datos.db",
@@ -35,11 +34,20 @@ describe( "TEST 2: BORRAR FILAS DE LA BD", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar una Medición",
-  async function() {
+  it( "Puedo dar de alta a un usuario",
+   async function() {
 
-    await laLogica.borrarFilasDe("Medidas")
-    await laLogica.borrarFilasDe("Usuarios")
+     //DOY DE ALTA AL USUARIO
+     await laLogica.darAltaUsuario({
+       idUsuario: 1, email: "emilioxeraco@gmail.com",
+       password: "1234", telefono: "646601542"
+     })
+
+     //BUSCO AL USUARIO POR SU EMAIL
+     var res = await laLogica.buscarUsuarioPorEmail("emilioxeraco@gmail.com")
+
+     // COMPRUEBO QUE ES ESE USUARIO
+     assert.equal( res[0].idUsuario, 1, "El ID usuario es: " + res[0].idUsuario)
 
   }) // it
 

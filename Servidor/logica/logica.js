@@ -95,6 +95,20 @@ buscarMedidasPorIdUsuario( idUsuario ){
     })
 }
 
+async getUltimaMedidaDeUnUsuario( idUsuario ){
+
+  var res = await this.buscarMedidasPorIdUsuario( idUsuario );
+
+  return new Promise( ( resolver, rechazar ) =>{
+    if( res.length > 0 ){
+      resolver( res[0] )
+    } else{
+      rechazar( null )
+    }
+  })
+
+}
+
 buscarUsuarioPorEmail( email ){
   var textoSQL = "select * from Usuarios where email=$email";
   var valoresParaSQL = { $email: email }

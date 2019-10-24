@@ -2,7 +2,7 @@
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
 // Última actualización: 24/10/2019
-// mainTest1.js
+// mainTest3.js
 // ........................................................
 
 const Logica = require( "../Logica.js" )
@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 2: BORRAR FILAS DE LA BD", function() {
+describe( "TEST 2: INSERTAR UNA MEDICIÓN", function() {
 // ....................................................
 // ....................................................
 
@@ -38,8 +38,32 @@ describe( "TEST 2: BORRAR FILAS DE LA BD", function() {
   it( "Puedo insertar y buscar una Medición",
   async function() {
 
-    await laLogica.borrarFilasDe("Medidas")
-    await laLogica.borrarFilasDe("Usuarios")
+    // INSERTAMOS UNA MEDIDA
+    await laLogica.insertarMedida({
+      valorMedida: 15, tiempo: 100,
+      latitud: 0.0, longitud: 0.0,
+      idUsuario: 1, idTipoMedida: 1,
+      idMedida: 1
+    })
+    // BUSCAMOS LA MEDIDA POR SU ID
+      var res = await laLogica.buscarMedidasPorIdMedida( 1 )
+
+    // COMPROBAMOS QUE LA MEDIDA QUE BUSCAMOS ES LA QUE HEMOS INSERTADO
+      assert.equal( res[0].valorMedida, 15 )
+      assert.equal( res[0].tiempo, 100 )
+
+      await laLogica.insertarMedida({
+        valorMedida: 45, tiempo: 100,
+        latitud: 0.0, longitud: 0.0,
+        idUsuario: 1, idTipoMedida: 1,
+        idMedida: 2
+      })
+
+      var res = await laLogica.getUltimaMedidaDeUnUsuario( 1 );
+
+      assert.equal( res.valorMedida, 15 )
+
+    // COMPROBAMOS QUE NOS DA LA ULTIMA MEDIDA QUE HEMOS INSERTADO
 
   }) // it
 
