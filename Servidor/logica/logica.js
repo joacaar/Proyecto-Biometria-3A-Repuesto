@@ -238,6 +238,23 @@ buscarSensor( idSensor ){
     })
 }
 
+async iniciarSesion(datos){
+
+  var res = await this.buscarUsuarioPorEmail(datos.email);
+
+  return new Promise( ( resolver, rechazar ) => {
+    try {
+      if( res.password == datos.password ){
+        resolver(true)
+      }
+    } catch (error) {
+      rechazar(false)
+    }
+
+  })
+
+}
+
 
 // .................................................................
 // cerrar() -->
@@ -248,7 +265,7 @@ cerrar( ) {
       ( err ? rechazar(err) : resolver() )
     })
   })
-  } // ()
+} // ()
 
 } // class
 // .....................................................................

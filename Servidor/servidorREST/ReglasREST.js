@@ -117,6 +117,26 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     }) // post / insertarMedida
 
     //-----------------------------------------------------------------------------
+    // POST /darAltaUsuario
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/darAltaUsuario',
+      async function( peticion, respuesta ){
+        console.log( " * POST /insertarMedida " )
+        var datos = JSON.parse( peticion.body )
+        // supuesto procesamiento
+        console.log(peticion.body);
+
+        // llamamos al método de la lógica que se encarga de insertar medida
+        await laLogica.darAltaUsuario(datos);
+
+        // enviarmos una respuesta que demuestra que todo ha salido correctamente
+        respuesta.send( "OK" );
+        console.log("Peticion POST darAltaUsuario recibido");
+    }) // post / darAltaUsuario
+
+    //-----------------------------------------------------------------------------
     // POST /insertarSensor
     // peticion.body --> JSON
     // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
@@ -134,7 +154,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
         respuesta.send( "OK" );
         console.log("Peticion POST insertarSensor recibido");
-    }) // post / insertarPersona
+    }) // post / insertarSensor
 
     //-----------------------------------------------------------------------------
     // POST /insertarSensor
@@ -154,7 +174,33 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
         respuesta.send( "OK" );
         console.log("Peticion POST insertarSensor recibido");
-    }) // post / insertarPersona
+    }) // post / insertarTipoSensor
+
+    //-----------------------------------------------------------------------------
+    // POST /iniciarSesion
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/iniciarSesion',
+      async function( peticion, respuesta ){
+        console.log( " * POST /iniciarSesion " )
+        var datos = JSON.parse( peticion.body )
+        // supuesto procesamiento
+        console.log(peticion.body);
+
+        // llamamos al método de la lógica que se encarga de insertar medida
+        var res = await laLogica.iniciarSesion(datos);
+        console.log(res)
+
+        if( res == true ){
+          respuesta.status(200).send("OK");
+        }
+         
+        respuesta.status(404).send("Credenciales erróneas");
+
+        console.log("Peticion POST insertarSensor recibido");
+        respuesta.send("OK")
+    }) // post / iniciarSesion
 
     //-----------------------------------------------------------------------------
     // POST /insertarMedida
@@ -170,7 +216,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
 
         respuesta.send("OK")
 
-    }) // post / insertarPersona
+    }) // post / borrarFilasDe/<tabla>
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
