@@ -5,44 +5,56 @@
 
 class Medicion{
 
-    constructor( _medidaCO, _hora, _fecha, _latitud, _longitud ){
+    constructor( _valorMedida, _tiempo, _latitud, _longitud, _idMedida, _idTipoMedida, _idUsuario ){
 
-      this.medidaCO = _medidaCO;
-      this.hora = _hora;
-      this.fecha = _fecha;
+      this.valorMedida = _valorMedida;
+      this.tiempo = _tiempo;
       this.latitud = _latitud;
       this.longitud = _longitud;
+      this.idMedida = _idMedida;
+      this.idTipoMedida = _idTipoMedida;
+      this.idUsuariol = _idUsuario;
 
     }
 
     constructor( eljson ){
 
-      this.medidaCO = eljson.medidaCO;
-      this.hora = eljson.hora;
-      this.fecha = eljson.fecha;
+      this.valorMedida = eljson.valorMedida;
+      this.tiempo = eljson.tiempo;
       this.latitud = eljson.latitud;
       this.longitud = eljson.longitud;
+      this.idMedida = eljson.idMedida;
+      this.idTipoMedida = eljson.idTipoMedida;
+      this.idUsuario = eljson.idUsuario;
 
     }
 
-    getMedidaCO( ){ return this.medidaCO }
+    getValorMedida( ){ return this.valorMedida }
 
-    getHora(){ return this.hora }
-
-    getFecha(){ return this.fecha }
+    getTiempo(){ return this.tiempo }
 
     getLatitud(){ return this.latitud }
 
     getLongitud(){ return this.longitud }
 
-    setMedidaCO( _medidaCO ){ this.medidaCO = _medidaCO }
+    getIdMedida(){ return this.idMedida }
 
-    setHora( _hora ){ this.hora = _hora }
+    getIdTipoMedida(){ return this.idTipoMedida }
 
-    setFecha( _fecha ){ this.fecha = _fecha }
+    getIdUsuario(){ return this.idUsuario }
+
+    setValorMedida( _valorMedida ){ this.valorMedida = _valorMedida }
+
+    setTiempo( _tiempo ){ this.tiempo = _tiempo }
 
     setLatitud( _latitud ){ this.latitud = _latitud }
 
     setLongitud( _longitud ){ this.longitud = _longitud }
+
+    setIdMedida( _idMedida ){ this.idMedida = _idMedida }
+
+    setIdTipoMedida( _idTipoMedida ){ this.idTipoMedida = _idTipoMedida }
+
+    setIdUsuario( _idUsuario ){ this.idUsuario }
 
 }

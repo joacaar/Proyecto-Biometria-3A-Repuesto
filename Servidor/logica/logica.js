@@ -84,6 +84,17 @@ buscarMedidasPorIdMedida( idMedida ){
     })
 }
 
+buscarMedidasPorIdUsuario( idUsuario ){
+  var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
+  var valoresParaSQL = { $idUsuario: idUsuario }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
+
 buscarUsuarioPorEmail( email ){
   var textoSQL = "select * from Usuarios where email=$email";
   var valoresParaSQL = { $email: email }
