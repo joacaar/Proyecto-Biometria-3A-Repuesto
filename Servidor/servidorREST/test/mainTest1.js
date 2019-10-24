@@ -1,4 +1,7 @@
 // ........................................................
+// Autor: Emilio Esteve Peiró
+// Fecha inicio: 24/10/2019
+// Última actualización: 24/10/2019
 // mainTest1.js
 // ........................................................
 var request = require ('request')

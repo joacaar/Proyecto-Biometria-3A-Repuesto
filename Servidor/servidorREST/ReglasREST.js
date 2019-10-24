@@ -1,10 +1,16 @@
 // .....................................................................
+// Autor: Emilio Esteve Peiró
+// Fecha inicio: 24/10/2019
+// Última actualización: 24/10/2019
 // ReglasREST.js
 // .....................................................................
+
 module.exports.cargar = function( servidorExpress, laLogica ) {
+
 // .......................................................
 // GET /prueba
 // .......................................................
+
 servidorExpress.get('/prueba', function( peticion, respuesta ){
   console.log( " * GET /prueba " )
   respuesta.send( "¡Funciona!" )
@@ -13,7 +19,7 @@ servidorExpress.get('/prueba', function( peticion, respuesta ){
 // .......................................................
 // GET /medidaPorIdMedida/<idMedida>
 // .......................................................
-//
+
 servidorExpress.get('/medidaPorIdMedida/:idMedida',
   async function( peticion, respuesta ){
     console.log( " * GET /medicion " )
@@ -34,7 +40,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
-  //
+
   servidorExpress.get('/medidasPorIdUsuario/:idUsuario',
     async function( peticion, respuesta ){
       console.log( " * GET /medicion " )
@@ -55,7 +61,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     // .......................................................
     // GET /medidasPorIdUsuario/<idMedida>
     // .......................................................
-    //
+
     servidorExpress.get('/ultimaMedida/:idUsuario',
       async function( peticion, respuesta ){
         console.log( " * GET /medicion " )
