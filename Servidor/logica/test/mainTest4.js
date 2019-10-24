@@ -2,7 +2,7 @@
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
 // Última actualización: 24/10/2019
-// mainTest2.js
+// mainTest3.js
 // ........................................................
 
 const Logica = require( "../Logica.js" )
@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
+describe( "TEST 4: INSERTAR SENSOR", function() {
 // ....................................................
 // ....................................................
 
@@ -20,6 +20,7 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
 
 // ....................................................
 // ....................................................
+
   it( "conectar a la base de datos", function( hecho ) {
     laLogica = new Logica(
       "../bd/datos.db",
@@ -34,20 +35,24 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo dar de alta a un usuario",
-   async function() {
+  it( "Puedo insertar y buscar una Medición",
+  async function() {
 
-     //DOY DE ALTA AL USUARIO
-     await laLogica.darAltaUsuario({
-       idUsuario: 1, email: "emilioxeraco@gmail.com",
-       password: "1234", telefono: "646601542"
-     })
+    // INSERTAMOS UN TIPO DE SENSOR
+    await laLogica.insertarTipoSensor({
+      idTipoMedida: 1, descripcion: "SENSOR DE CO"
+    })
 
-     //BUSCO AL USUARIO POR SU EMAIL
-     var res = await laLogica.buscarUsuarioPorEmail("emilioxeraco@gmail.com")
+    // INSERTAMOS UN SENSOR
+    await laLogica.insertarSensor({
+      idTipoMedida: 1, idSensor: 1
+    })
 
-     // COMPRUEBO QUE ES ESE USUARIO
-     assert.equal( res.idUsuario, 1, "El ID usuario es: " + res.idUsuario)
+    // BUSCAMOS EL SENSOR QUE HEMOS INSERTADO
+    var res = await laLogica.buscarSensor( 1 );
+
+    assert.equal( res.idTipoMedida, 1 )
+
 
   }) // it
 

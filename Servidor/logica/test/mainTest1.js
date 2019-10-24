@@ -35,11 +35,16 @@ describe( "TEST 1: BORRAR FILAS DE LA BD", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar una Medición",
+  it( "Puedo borrar filas de la bd",
   async function() {
 
+    //BORRO LAS FILAS DE LAS SIGUIENTES TABLAS
     await laLogica.borrarFilasDe("Medidas")
     await laLogica.borrarFilasDe("Usuarios")
+    await laLogica.borrarFilasDe("TipoSensores")
+    await laLogica.borrarFilasDe("Sensores")
+    await laLogica.borrarFilasDe("UsuarioSensor")
+
 
   }) // it
 

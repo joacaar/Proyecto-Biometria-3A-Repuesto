@@ -57,9 +57,9 @@ async borrarFilasDeTodasLasTablas() {
 
 
 // .................................................................
-// datos:{mayor:entero, menor:entero: fecha:Texto}
+// datos:{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}
 // -->
-// insertarMedicion() -->
+// insertarMedida() -->
 // .................................................................
 insertarMedida( datos ) {
   var textoSQL =
@@ -76,6 +76,11 @@ insertarMedida( datos ) {
   })
 } // ()
 
+// .................................................................
+// --> idMedida: N
+// buscarMedidasPorIdMedida()
+// --> [{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+// .................................................................
 buscarMedidasPorIdMedida( idMedida ){
   var textoSQL = "select * from Medidas where idMedida=$idMedida";
   var valoresParaSQL = { $idMedida: idMedida }
@@ -87,6 +92,11 @@ buscarMedidasPorIdMedida( idMedida ){
     })
 }
 
+// .................................................................
+// --> idUsuario: N
+// buscarMedidasPorIdUsuario()
+// --> [{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+// .................................................................
 buscarMedidasPorIdUsuario( idUsuario ){
   var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
   var valoresParaSQL = { $idUsuario: idUsuario }
@@ -98,6 +108,11 @@ buscarMedidasPorIdUsuario( idUsuario ){
     })
 }
 
+// .................................................................
+// --> idUsuario: N
+// getUltimaMedidaDeUnUsuario()
+// --> {valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}
+// .................................................................
 async getUltimaMedidaDeUnUsuario( idUsuario ){
 
   var res = await this.buscarMedidasPorIdUsuario( idUsuario );
@@ -112,17 +127,26 @@ async getUltimaMedidaDeUnUsuario( idUsuario ){
 
 }
 
+// .................................................................
+// --> email: Texto
+// buscarMedidasPorIdUsuario()
+// --> {email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
+// .................................................................
 buscarUsuarioPorEmail( email ){
   var textoSQL = "select * from Usuarios where email=$email";
   var valoresParaSQL = { $email: email }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
-        ( err ? rechazar( err ) : resolver( res ) )
+        ( err ? rechazar( err ) : resolver( res[0] ) )
       })
     })
 }
 
+// .................................................................
+// -->{email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
+// darAltaUsuario()
+// .................................................................
 darAltaUsuario( datos ){
   var textoSQL =
   'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
@@ -134,6 +158,84 @@ darAltaUsuario( datos ){
             ( err ? rechazar( err ) : resolver( ) )
     })
   })
+}
+
+// .................................................................
+// -->{idUsuario:N, idSensor:N}
+// darSensorAUsuario()
+// .................................................................
+darSensorAUsuario( datos ){
+  var textoSQL =
+  'insert into UsuarioSensor values ( $idUsuario, $idSensor );'
+  var valoresParaSQL = {
+     $idUsuario: datos.idUsuario, $idSensor: datos.idSensor
+  }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+            ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
+}
+
+// .................................................................
+// -->{idTipoMedida:N, idSensor:N}
+// insertarSensor()
+// .................................................................
+insertarSensor( datos ){
+  var textoSQL =
+  'insert into Sensores values ( $idTipoMedida, $idSensor );'
+  var valoresParaSQL = {
+      $idTipoMedida: datos.idTipoMedida, $idSensor: datos.idSensor
+  }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+            ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
+}
+
+// .................................................................
+// -->{idTipoMedida:N, descripcion:Texto}
+// insertarTipoSensor()
+// .................................................................
+insertarTipoSensor( datos ){
+  var textoSQL =
+  'insert into TipoSensores values ( $idTipoMedida, $descripcion );'
+  var valoresParaSQL = {
+      $idTipoMedida: datos.idTipoMedida, $descripcion: datos.descripcion
+  }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+            ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
+}
+
+// .................................................................
+// --> idSensor:N
+// getUsuarioQueTieneElSensor()
+// --> {idSensor:N, idUsuario:N}
+// .................................................................
+getUsuarioQueTieneElSensor( idSensor ){
+  var textoSQL = "select * from UsuarioSensor where idSensor=$idSensor";
+  var valoresParaSQL = { $idSensor: idSensor }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res[0] ) )
+      })
+    })
+}
+
+buscarSensor( idSensor ){
+  var textoSQL = "select * from Sensores where idSensor=$idSensor";
+  var valoresParaSQL = { $idSensor: idSensor }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res[0] ) )
+      })
+    })
 }
 
 

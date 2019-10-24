@@ -18,18 +18,10 @@ describe( "Test 1 : Recuerda arrancar el servidor", function() {
   // PROBAMOS POST /borrarFilasDe/<tabla>
   // ....................................................
 
-  it( "probar POST /borrarFilasDe/tablas", function( hecho ) {
-    request.post(
-      { url : IP_PUERTO+"/borrarFilasDe/Medidas",
-      headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
-    },
-    function( err, respuesta, carga ) {
-      assert.equal( carga, "OK", "¿La carga no es OK" )
-    } // callback
-    ) // .post
+  it( "probar POST /borrarFilasDe/Medidas", function( hecho ) {
 
     request.post(
-      { url : IP_PUERTO+"/borrarFilasDe/Usuarios",
+      { url : IP_PUERTO+"/borrarFilasDe/Medidas",
       headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
     },
     function( err, respuesta, carga ) {
@@ -37,6 +29,63 @@ describe( "Test 1 : Recuerda arrancar el servidor", function() {
       hecho()
     } // callback
     ) // .post
+
+  }) // it
+
+  it( "probar POST /borrarFilasDe/Medidas", function( hecho ) {
+
+        request.post(
+          { url : IP_PUERTO+"/borrarFilasDe/Sensores",
+          headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
+        },
+        function( err, respuesta, carga ) {
+          assert.equal( carga, "OK", "¿La carga no es OK" )
+          hecho()
+        } // callback
+        ) // .post
+
+  }) // it
+
+  it( "probar POST /borrarFilasDe/Medidas", function( hecho ) {
+
+        request.post(
+          { url : IP_PUERTO+"/borrarFilasDe/TipoSensores",
+          headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
+        },
+        function( err, respuesta, carga ) {
+          assert.equal( carga, "OK", "¿La carga no es OK" )
+          hecho()
+        } // callback
+        ) // .post
+
+  }) // it
+
+  it( "probar POST /borrarFilasDe/Medidas", function( hecho ) {
+
+        request.post(
+          { url : IP_PUERTO+"/borrarFilasDe/Usuarios",
+          headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
+        },
+        function( err, respuesta, carga ) {
+          assert.equal( carga, "OK", "¿La carga no es OK" )
+          hecho()
+        } // callback
+        ) // .post
+
+  }) // it
+
+  it( "probar POST /borrarFilasDe/Medidas", function( hecho ) {
+
+        request.post(
+          { url : IP_PUERTO+"/borrarFilasDe/UsuarioSensor",
+          headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
+        },
+        function( err, respuesta, carga ) {
+          assert.equal( carga, "OK", "¿La carga no es OK" )
+          hecho()
+        } // callback
+        ) // .post
+
   }) // it
 
 

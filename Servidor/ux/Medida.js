@@ -3,7 +3,7 @@
 // Última actualización: 18/10/2019 . 21:09
 // Equipo 2
 
-class Medicion{
+class Medida{
 
     constructor( _valorMedida, _tiempo, _latitud, _longitud, _idMedida, _idTipoMedida, _idUsuario ){
 
@@ -13,7 +13,7 @@ class Medicion{
       this.longitud = _longitud;
       this.idMedida = _idMedida;
       this.idTipoMedida = _idTipoMedida;
-      this.idUsuariol = _idUsuario;
+      this.idUsuario = _idUsuario;
 
     }
 
