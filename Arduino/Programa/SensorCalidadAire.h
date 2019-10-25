@@ -1,4 +1,11 @@
-class SensorCO
+//-----------------------------------
+//   Autor: Adrián Heras Reche
+//   Fecha: 07/10/2019
+//   Última Actualización: 25/10/2019
+//   SensorCalidadAire.h
+//-----------------------------------
+
+class SensorCalidadAire
 {
     //-------------------------------------
     //-------------------------------------
@@ -13,7 +20,7 @@ class SensorCO
     //Constructor de la clase
     int tx;
     int rx;
-    double factorCalibracion;
+    double factorCalibracion;;
 
     //Funciones privada del la clase
 
@@ -23,9 +30,16 @@ class SensorCO
     //-------------------------
     void cacharroDimeloTodo()
     {
-      medida = random(0, 10) + factorCalibracion;
-      hora = random(0, 24);
-      fecha = "2019/10/06";
+      Serial.println(" ");
+      Serial.println(" ");
+      Serial.print("medida");
+      //medida = random(0, 10) + factorCalibracion;
+      //hora = random(0, 24);
+      //fecha = "2019/10/06";
+
+      Serial1.print('\r');
+      String datos = Serial1.readStringUntil('\r');
+      Serial.println(datos);
     }
 
     //-------------------------------------
@@ -36,18 +50,19 @@ class SensorCO
     //--------------------------
     //    constructor()
     //--------------------------
-    SensorCO (double factor)
+    SensorCalidadAire (double factor)
     {
-      tx = 3;
-      rx = 2;
-      setFactorCalibracion(factor);
+      tx = 17; //tx del sensor
+      rx = 15; //rx del sensor
+      //setFactorCalibracion(factor);
+
     }
 
     //--------------------------
-    //    medirCO()
+    //    medirCalidadAire()
     //          ->R
     //--------------------------
-    int medirCO()
+    int medirCalidadAire()
     {
       cacharroDimeloTodo();
       return (*this).medida;
