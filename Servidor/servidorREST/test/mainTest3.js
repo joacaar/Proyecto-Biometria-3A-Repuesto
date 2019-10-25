@@ -75,21 +75,4 @@ it( "GET /buscarSensor/1 responde con el sensor", function( hecho ) {
   ) // .get
 }) // it
 
-// ....................................................
-// PROBAMOS GET /medidasPorIdUsuario/<idUsuario>
-// ....................................................
-
-it( "GET /ultimaMedida/1 responde con la última Medida tomada por el Usuario", function( hecho ) {
-  request.get(
-    { url : IP_PUERTO+"/ultimaMedida/1", headers : { 'User-Agent' : 'jordi' }},
-    function( err, respuesta, carga ) {
-      var json = JSON.parse(carga);
-      assert.equal( err, null, "¿ha habido un error?" )
-      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( json.valorMedida, 74, "¿La medida es 74?" + json.valorMedida )
-      hecho()
-    } // callback()
-  ) // .get
-}) // it
-
 }) // describe

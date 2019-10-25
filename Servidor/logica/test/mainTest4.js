@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 4: INSERTAR SENSOR", function() {
+describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
 // ....................................................
 // ....................................................
 
@@ -38,21 +38,32 @@ describe( "TEST 4: INSERTAR SENSOR", function() {
   it( "Puedo insertar y buscar una Medición",
   async function() {
 
-    // INSERTAMOS UN TIPO DE SENSOR
-    await laLogica.insertarTipoSensor({
-      idTipoMedida: 1, descripcion: "SENSOR DE CO"
+    // INSERTAMOS UNA MEDIDA
+    await laLogica.insertarMedida({
+      valorMedida: 15, tiempo: 100,
+      latitud: 0.0, longitud: 0.0,
+      idUsuario: 1, idTipoMedida: 1,
+      idMedida: 1
     })
+    // BUSCAMOS LA MEDIDA POR SU ID
+      var res = await laLogica.buscarMedidasPorIdMedida( 1 )
 
-    // INSERTAMOS UN SENSOR
-    await laLogica.insertarSensor({
-      idTipoMedida: 1, idSensor: 1
-    })
+    // COMPROBAMOS QUE LA MEDIDA QUE BUSCAMOS ES LA QUE HEMOS INSERTADO
+      assert.equal( res[0].valorMedida, 15 )
+      assert.equal( res[0].tiempo, 100 )
 
-    // BUSCAMOS EL SENSOR QUE HEMOS INSERTADO
-    var res = await laLogica.buscarSensor( 1 );
+      await laLogica.insertarMedida({
+        valorMedida: 45, tiempo: 100,
+        latitud: 0.0, longitud: 0.0,
+        idUsuario: 1, idTipoMedida: 1,
+        idMedida: 2
+      })
 
-    assert.equal( res.idTipoMedida, 1 )
+      var res = await laLogica.getUltimaMedidaDeUnUsuario( 1 );
 
+      assert.equal( res.valorMedida, 45 )
+
+    // COMPROBAMOS QUE NOS DA LA ULTIMA MEDIDA QUE HEMOS INSERTADO
 
   }) // it
 

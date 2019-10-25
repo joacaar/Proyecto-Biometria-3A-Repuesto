@@ -5,6 +5,7 @@
 // Logica.js
 // .....................................................................
 const sqlite3 = require( "sqlite3" )
+/*const SimpleCrypto = require("simple-crypto-js").default;*/
 // .....................................................................
 // .....................................................................
 
@@ -150,6 +151,8 @@ buscarUsuarioPorEmail( email ){
 darAltaUsuario( datos ){
   var textoSQL =
   'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
+
+
   var valoresParaSQL = {
      $idUsuario: datos.idUsuario, $email: datos.email, $password: datos.password, $telefono: datos.telefono
   }
