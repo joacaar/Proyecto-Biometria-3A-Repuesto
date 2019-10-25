@@ -14,35 +14,39 @@ class Proxy {
     console.log("Soy un proxy")
   }
 
-//---------------------------------------------------------------------------
-// valor:R -> insertarMedicionCO() ->
-//----------------------------------------------------------------------------
-  insertarMedicionCO( datos ){
+  //---------------------------------------------------------------------------
+  // datos:{valorMedida: R} -> insertarMedida() ->
+  //----------------------------------------------------------------------------
+  iniciarSesion( datos, callback ){
 
-      var data = {
-        medidaCO: datos.medidaCO,
-        hora: datos.hora,
-        fecha: datos.fecha,
-        latitud : datos.latitud,
-        longitud : datos.longitud
-      };
+    var datosUsuario = {
+      email: datos.email, password: datos.password
+    }
 
-      fetch(IP_PUERTO+"/insertarMedicion", {
+      fetch(IP_PUERTO+"/iniciarSesion", {
       method: 'POST', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
+      body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
       headers:{
          'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
       }
-    }).then( (res) =>{
-      console.log(res)
-    })
+      }).then( (res) => {
+        return res
+      }).catch( (error) => {
+        return error
+      }).then(( response ) => {
+        if(response.status == 200){
+          callback(true)
+        } else{
+          callback(false)
+        }
+      })
 
-  }
+    }
 
   //----------------------------------------------------------------------------
   // Texto --> getMedicionesPorFecha() --> JSON{ medidaCO: R, hora: Texto, fecha: Texto }
   //----------------------------------------------------------------------------
-  getMedicionesPorFecha( fecha, callback ){
+  getUltimaMedidaDeUnUsuario( idUsuario, callback ){
 
     var myInit = { method: 'GET',
                    headers: {
@@ -52,7 +56,7 @@ class Proxy {
                    cache: 'default' };
 
 
-    fetch(IP_PUERTO+"/medicion/" + fecha, myInit)
+    fetch(IP_PUERTO+"/ultimaMedida/" + idUsuario, myInit)
     .then((res)=>{
       return res.json();
     })
