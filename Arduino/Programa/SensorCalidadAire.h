@@ -14,32 +14,51 @@ class SensorCalidadAire
     //variables privadas de la clase:
     //guardadas por el sensor
     long medida;
-    String hora;
-    String fecha;
+    int sensorData [11];
+
+    //Debido a que se recoge la fecha y hora en el movil he decidido comentarlas aquí
+    //   incluyendo sus funciones dimeHora y dimeFecha
+    //String hora;
+    //String fecha;
 
     //Constructor de la clase
-    int tx;
-    int rx;
-    double factorCalibracion;;
+
+    // Sospecho que el factorCalibracion acabará siendo obsoleto si la calibración se acaba por hacer en el servidor o en el móvil
+    double factorCalibracion;
 
     //Funciones privada del la clase
-
     //-------------------------
     //    cacharroDimeloTodo()
-    //              ->Z, Texto, Texto
+    //              ->Z
     //-------------------------
     void cacharroDimeloTodo()
     {
       Serial.println(" ");
       Serial.println(" ");
-      Serial.print("medida");
-      //medida = random(0, 10) + factorCalibracion;
-      //hora = random(0, 24);
-      //fecha = "2019/10/06";
+      Serial.println("medida ");
 
-      Serial1.print('\r');
-      String datos = Serial1.readStringUntil('\r');
-      Serial.println(datos);
+
+      int i = 0;
+      for (int i = 0; i < 11; i++) {
+        //Se le envia al sensor \r para que envie una tanda de datos
+        Serial1.print('\r');
+        sensorData[i] = Serial1.parseInt();
+      }
+
+      //Por alguna razón al comentar el codigo de abajo que solo muestra la informacion que le llega
+      //  el array cambia de ser [1] a ser [2] para que pase el PPB. No estoy seguro de porqué, pero
+      //   funciona así
+      medida = sensorData[2];
+      Serial.println(medida);
+
+      //Descomentar si se quiere mostrar toda la información por el monitor serie
+      /*for (int j = 0; j < 11; j++) {
+        Serial.print(sensorData[j]);
+        Serial.print(" ");
+        }*/
+
+      //Se le envia al sensor 's' para que vuelva al estado de bajo consumo
+      Serial1.print('s');
     }
 
     //-------------------------------------
@@ -52,10 +71,7 @@ class SensorCalidadAire
     //--------------------------
     SensorCalidadAire (double factor)
     {
-      tx = 17; //tx del sensor
-      rx = 15; //rx del sensor
-      //setFactorCalibracion(factor);
-
+      setFactorCalibracion(factor);
     }
 
     //--------------------------
@@ -69,26 +85,6 @@ class SensorCalidadAire
     }
 
     //--------------------------
-    //    dimeHora()
-    //          ->Texto
-    //--------------------------
-    String dimeHora()
-    {
-      cacharroDimeloTodo();
-      return (*this).hora;
-    }
-
-    //--------------------------
-    //    dimeFecha()
-    //          ->Texto
-    //--------------------------
-    String dimeFecha()
-    {
-      cacharroDimeloTodo();
-      return (*this).fecha;
-    }
-
-    //--------------------------
     // ->R
     //    setFactorCalibracion()
     //--------------------------
@@ -96,4 +92,24 @@ class SensorCalidadAire
     {
       (*this).factorCalibracion = factor;
     }
+
+    /*//--------------------------
+      //    dimeHora()
+      //          ->Texto
+      //--------------------------
+      String dimeHora()
+      {
+      cacharroDimeloTodo();
+      return (*this).hora;
+      }
+
+      //--------------------------
+      //    dimeFecha()
+      //          ->Texto
+      //--------------------------
+      String dimeFecha()
+      {
+      cacharroDimeloTodo();
+      return (*this).fecha;
+      }*/
 };
