@@ -38,15 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:orientation="horizontal"
-            android:padding="20dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="40dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="20dp"
+            android:paddingTop="18dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="18dp">
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/rounded_borders"
                 android:drawableStart="@drawable/ic_email"
                 android:drawableLeft="@drawable/ic_email"
@@ -66,7 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="20dp">
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="18dp">
 
             <EditText
                 android:id="@+id/password"
@@ -80,7 +83,7 @@
                 android:ems="10"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
-                android:hint="Password"
+                android:hint="Contraseña"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColorHint="#86FFFFFF" />
@@ -107,15 +110,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:onClick="linkRegistrarse"
             android:padding="10dp">
 
             <TextView
                 android:id="@+id/registrarse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¿Aún no tienes cuenta? Regístrate"
-                android:textColor="#FFFFFF" />
+                android:autoLink="all"
+                android:text="¿Aún no tienes una cuenta?"
+                android:textColor="#FFFFFF"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/textoRegistrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:onClick="linkRegistrarse"
+                android:text=" Regístrate"
+                android:textColor="#FFFFFF"
+                android:textIsSelectable="true"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
