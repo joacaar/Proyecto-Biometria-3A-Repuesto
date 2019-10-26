@@ -17,9 +17,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                app:srcCompat="@drawable/ic_envirometrics_grande" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
             android:orientation="vertical">
 
             <TextView
