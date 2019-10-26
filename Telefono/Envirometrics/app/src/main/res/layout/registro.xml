@@ -11,6 +11,8 @@
         android:id="@+id/linearLayout8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -24,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-thin"
-            android:text="Envirometrics"
+            android:text="Crear cuenta"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
     </LinearLayout>
@@ -33,6 +35,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
