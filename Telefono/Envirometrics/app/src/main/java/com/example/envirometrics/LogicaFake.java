@@ -35,6 +35,18 @@ public class LogicaFake {
         Log.e("--- Server ---", "post enviado");
     }
 
+    void darDeAltaUsuario(Usuario usuario){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("email", usuario.getEmail());
+        params.put("password", usuario.getPassword());
+        params.put("telefono", usuario.getTelefono());
+
+        JSONObject eljson = new JSONObject(params);
+        elPeticionario.postJSONHTTP("darAltaUsuario", eljson);
+
+        Log.e("--- Server ---", "post enviado: Dar alta usuario");
+    }
+
     //Metodo para imlementar el metodo anterior en un boton
     void anunciarCOClickBoton(Medicion medicion){
         this.anunciarCO(medicion);

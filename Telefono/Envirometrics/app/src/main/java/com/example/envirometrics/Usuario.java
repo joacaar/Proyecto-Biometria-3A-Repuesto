@@ -2,24 +2,24 @@ package com.example.envirometrics;
 
 public class Usuario {
 
-    private String correoElectronico;
+    private String email;
     private String telefono;
     private String password;
 
 
-    public Usuario(String correoElectronico_, String tel_, String password_)
+    public Usuario(String email_, String tel_, String password_)
     {
-        this.correoElectronico = correoElectronico_;
+        this.email = email_;
         this.telefono = tel_;
         this.password = password_;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getEmail() {
+        return email;
     }
 
     public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+        this.email = correoElectronico;
     }
 
     public String getTelefono() {

@@ -58,6 +58,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoText="true"
                 android:background="@drawable/rounded_borders"
                 android:drawableStart="@drawable/ic_email"
                 android:drawableLeft="@drawable/ic_email"
@@ -113,8 +114,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/botones"
-                android:text="Iniciar sesión"
+                android:text="@string/iniciar_sesi_n"
                 android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textoError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FF5858" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,7 +139,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/registrarse"
+                android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="all"
