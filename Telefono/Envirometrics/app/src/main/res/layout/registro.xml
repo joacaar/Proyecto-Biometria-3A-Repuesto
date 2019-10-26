@@ -88,7 +88,8 @@
             android:hint="Confirmar contraseña"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:textColorHint="#86FFFFFF" />
+            android:textColorHint="#86FFFFFF"
+            />
     </LinearLayout>
 
     <LinearLayout
