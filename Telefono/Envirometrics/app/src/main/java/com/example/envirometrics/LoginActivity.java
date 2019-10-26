@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        btnIniciarSesion = findViewById(R.id.btnLogin);
+        btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
         iniciarSesion();
 
