@@ -3,6 +3,9 @@ package com.example.envirometrics;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -12,6 +15,7 @@ public class LogicaFake {
 
     private PeticionarioREST elPeticionario;
     String laUrlDelServidor = "http://192.168.1.15:8080/";
+    private int statusCode;
 
     LogicaFake(Context elContexto){
 
@@ -35,17 +39,19 @@ public class LogicaFake {
         Log.e("--- Server ---", "post enviado");
     }
 
-    void darDeAltaUsuario(Usuario usuario){
+    void darAltaUsuario(Usuario usuario){
         Map<String, String> params = new HashMap<String, String>();
         params.put("email", usuario.getEmail());
         params.put("password", usuario.getPassword());
         params.put("telefono", usuario.getTelefono());
 
         JSONObject eljson = new JSONObject(params);
-        elPeticionario.postJSONHTTP("darAltaUsuario", eljson);
+        elPeticionario.postDarAltaUsuario("darAltaUsuario", eljson);
 
         Log.e("--- Server ---", "post enviado: Dar alta usuario");
     }
+
+
 
     //Metodo para imlementar el metodo anterior en un boton
     void anunciarCOClickBoton(Medicion medicion){

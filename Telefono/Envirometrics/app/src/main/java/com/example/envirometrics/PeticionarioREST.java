@@ -1,7 +1,10 @@
 package com.example.envirometrics;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,7 +15,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-public class PeticionarioREST {
+public class PeticionarioREST extends Activity {
 
     //---------------------------------------------------------------------------------
     //variables PRIVADAS
@@ -52,6 +55,34 @@ public class PeticionarioREST {
                             public void onErrorResponse(VolleyError error)
                             {
                                 Log.d("Error conectar servidor", error.toString());
+                            }
+                        });
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjRequest);
+    }
+
+    public void postDarAltaUsuario(String paramsUrl, JSONObject elJson){
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest
+                (Request.Method.POST, url + paramsUrl, elJson, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.d("Respuesta", response.toString());
+                        //Inicio el MainActivity
+                        Intent i = new Intent(PeticionarioREST.this, MainActivity.class);
+                        startActivity(i);
+                    }
+                },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error)
+                            {
+                                Log.d("Error conectar servidor", error.toString());
+                                TextView textoError = findViewById(R.id.textoError2);
+                                textoError.setText("Cuenta ya registrada");
                             }
                         });
 

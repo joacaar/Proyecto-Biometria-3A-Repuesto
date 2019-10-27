@@ -63,11 +63,7 @@ public class RegistroActivity extends Activity {
 
                         //Creo un usuario y se lo envio al servidor para que lo guarde en la bd
                         Usuario nuevoUsuario = new Usuario(email, telefono, password);
-                        //laLogica.darDeAltaUsuario(nuevoUsuario);
-
-                        //Inicio el MainActivity
-                        Intent i = new Intent(RegistroActivity.this, MainActivity.class);
-                        startActivity(i);
+                        laLogica.darAltaUsuario(nuevoUsuario);
                     }
                 }//else
 

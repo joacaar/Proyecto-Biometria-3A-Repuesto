@@ -50,8 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void linkRegistrarse (View view){
-        Intent MainIntent = new Intent(LoginActivity.this, RegistroActivity.class);
-        startActivity(MainIntent);
+        Intent i = new Intent(LoginActivity.this, RegistroActivity.class);
+        startActivity(i);
     }
 
 
