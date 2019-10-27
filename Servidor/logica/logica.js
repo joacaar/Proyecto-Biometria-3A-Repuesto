@@ -175,10 +175,13 @@ async darAltaUsuario( datos ){
   var textoSQL =
   'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
 
-  var res = await this.getUltimoIDUsuario()
+  var res = await this.getUltimoIDUsuario();
+
+  // encriptamos la contraseña con el email.
+  var laPasswordEncriptada = sjcl.encrypt(datos.email, datos.password)
 
   var valoresParaSQL = {
-     $idUsuario: res + 1, $email: datos.email, $password: datos.password, $telefono: datos.telefono
+     $idUsuario: res + 1, $email: datos.email, $password: laPasswordEncriptada, $telefono: datos.telefono
   }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
@@ -270,8 +273,9 @@ async iniciarSesion(datos){
   var res = await this.buscarUsuarioPorEmail(datos.email);
 
   return new Promise( ( resolver, rechazar ) => {
+
     try {
-      if( res.password == datos.password ){
+      if( sjcl.decrypt(datos.email, res.password) == datos.password ){
         resolver(true)
       }
     } catch (error) {
