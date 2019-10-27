@@ -4,6 +4,7 @@
 // Última actualización: 24/10/2019
 // Logica.js
 // .....................................................................
+const sjcl = require('sjcl')
 const sqlite3 = require( "sqlite3" )
 /*const SimpleCrypto = require("simple-crypto-js").default;*/
 // .....................................................................
@@ -110,6 +111,28 @@ buscarMedidasPorIdUsuario( idUsuario ){
 }
 
 // .................................................................
+// getUltimoIDUsuario()
+// --> N
+// .................................................................
+getUltimoIDUsuario(){
+  var textoSQL = "select * from Usuarios";
+  var valoresParaSQL = {}
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        if( err ){
+          rechazar(err)
+        }
+        if( res.length == 0 ){
+          resolver(0)
+        } else{
+          resolver(res[res.length - 1].idUsuario)
+        }
+      })
+    })
+}
+
+// .................................................................
 // --> idUsuario: N
 // getUltimaMedidaDeUnUsuario()
 // --> {valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}
@@ -148,13 +171,14 @@ buscarUsuarioPorEmail( email ){
 // -->{email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
 // darAltaUsuario()
 // .................................................................
-darAltaUsuario( datos ){
+async darAltaUsuario( datos ){
   var textoSQL =
   'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
 
+  var res = await this.getUltimoIDUsuario()
 
   var valoresParaSQL = {
-     $idUsuario: datos.idUsuario, $email: datos.email, $password: datos.password, $telefono: datos.telefono
+     $idUsuario: res + 1, $email: datos.email, $password: datos.password, $telefono: datos.telefono
   }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {

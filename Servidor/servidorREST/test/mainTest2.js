@@ -20,7 +20,7 @@ describe( "Test 4 : Probamos darAltaUsuario ", function() {
 
   it( "probar POST /darAltaUsuario", function( hecho ) {
     var datosUsuario = {
-      idUsuario: 1, email: "emilioxeraco@gmail.com",
+      email: "emilioxeraco@gmail.com",
       password: "1234", telefono: "646601542"
     }
     request.post(
