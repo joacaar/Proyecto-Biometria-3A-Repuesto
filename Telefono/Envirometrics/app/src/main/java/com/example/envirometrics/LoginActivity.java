@@ -15,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private Button btnIniciarSesion;
     private TextView textoError;
+    public LogicaFake laLogica;
 
 
     @Override
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        laLogica = new LogicaFake(this);
         btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
         iniciarSesion();

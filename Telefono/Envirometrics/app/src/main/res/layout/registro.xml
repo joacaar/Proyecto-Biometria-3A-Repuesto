@@ -71,7 +71,7 @@
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout11"
+        app:layout_constraintBottom_toTopOf="@+id/textoError2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
@@ -91,32 +91,7 @@
             android:hint="Confirmar contraseña"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:textColorHint="#86FFFFFF"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
-
-        <Button
-            android:id="@+id/btnRegistrarse"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/botones"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/registrarse"
-            android:textColor="#FFFFFF" />
+            android:textColorHint="#86FFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -180,23 +155,32 @@
             android:textColorHint="#86FFFFFF" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout13"
+    <TextView
+        android:id="@+id/textoError2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:gravity="center"
+        android:textColor="#FF5858"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+
+    <Button
+        android:id="@+id/btnRegistrarse"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/botones"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/registrarse"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
-
-        <TextView
-            android:id="@+id/textoError2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="#FF5858" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textoError2" />
 
     <LinearLayout
         android:id="@+id/linearLayout14"
@@ -209,10 +193,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout13">
+        app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse">
 
         <TextView
-            android:id="@+id/btnLogin"
+            android:id="@+id/ya_tienes_cuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¿Ya tienes cuenta? "
@@ -226,6 +210,7 @@
             android:text="Inicia sesión"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

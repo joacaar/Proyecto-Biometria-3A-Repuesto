@@ -28,6 +28,7 @@ public class RegistroActivity extends Activity {
 
         btnRegistrarme = findViewById(R.id.btnRegistrarse);
         textoError = findViewById(R.id.textoError2);
+        laLogica = new LogicaFake(this);
         registrarse();
 
     }
@@ -54,8 +55,12 @@ public class RegistroActivity extends Activity {
                     textoError.setText("Complete todos los campos");
                 }
                 else {
+                    //Compruebo si es un email
+                    if(!email.contains("@")){
+                        textoError.setText("Email incorrecto");
+                    }
                     //Compruebo que las contraseñas coinciden
-                    if (!password.equals(confirmarPassword)) {
+                    else if (!password.equals(confirmarPassword)) {
                         textoError.setText("Las contraseñas no coinciden");
                     }
                     //Todo correcto
