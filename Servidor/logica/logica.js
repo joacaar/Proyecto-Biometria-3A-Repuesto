@@ -268,6 +268,7 @@ buscarSensor( idSensor ){
     })
 }
 
+// {email:Texto, password:Texto}
 async iniciarSesion(datos){
 
   var res = await this.buscarUsuarioPorEmail(datos.email);

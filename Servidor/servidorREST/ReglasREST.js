@@ -123,7 +123,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     //-----------------------------------------------------------------------------
     servidorExpress.post('/darAltaUsuario',
       async function( peticion, respuesta ){
-        console.log( " * POST /insertarMedida " )
+        console.log( " * POST /darAltaUsuario " )
         var datos = JSON.parse( peticion.body )
         // supuesto procesamiento
         console.log(peticion.body);
@@ -132,7 +132,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.darAltaUsuario(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( "OK" );
+        respuesta.status(200).send( {laRespuesta: "OK"} );
         console.log("Peticion POST darAltaUsuario recibido");
     }) // post / darAltaUsuario
 
@@ -195,7 +195,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         if( res == true ){
           respuesta.status(200).send("OK");
         }
-         
+
         respuesta.status(404).send("Credenciales erróneas");
 
         console.log("Peticion POST insertarSensor recibido");
@@ -222,7 +222,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
   // GET /ux/<pagina>
   //-----------------------------------------------------------------------------
   servidorExpress.get('/ux/:pagina', function( peticion, respuesta ){
-      console.log( " servint html normal: " + peticion.params.plana )
+      console.log( " servint html normal: " + peticion.params.pagina )
 
       var dir = 'C:/Users/EMILIO/Documents/GitHub/Proyecto-Biometria-3A/Servidor/ux/'
       respuesta.sendFile( dir + peticion.params.pagina);
