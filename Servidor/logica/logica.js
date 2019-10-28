@@ -177,6 +177,8 @@ async darAltaUsuario( datos ){
 
   var res = await this.getUltimoIDUsuario();
 
+  var res = await this.buscarUsuarioPorEmail(datos.email)
+
   // encriptamos la contraseña con el email.
   var laPasswordEncriptada = sjcl.encrypt(datos.email, datos.password)
 
@@ -185,7 +187,15 @@ async darAltaUsuario( datos ){
   }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
-            ( err ? rechazar( err ) : resolver( ) )
+        if( err ){
+            rechazar(err)
+        }
+        if( res == undefined ){
+          resolver()
+        }
+        else{
+          resolver("Ya existe")
+        }
     })
   })
 }
@@ -268,7 +278,11 @@ buscarSensor( idSensor ){
     })
 }
 
+// --------------------------------------------------------------
 // {email:Texto, password:Texto}
+// --> iniciarSesion()
+// --> V/F
+// --------------------------------------------------------------
 async iniciarSesion(datos){
 
   var res = await this.buscarUsuarioPorEmail(datos.email);
@@ -280,7 +294,7 @@ async iniciarSesion(datos){
         resolver(true)
       }
     } catch (error) {
-      rechazar(false)
+      resolver(false)
     }
 
   })
