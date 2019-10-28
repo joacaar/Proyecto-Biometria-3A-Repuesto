@@ -53,16 +53,15 @@ public class PeticionarioREST {
                     public void onResponse(JSONObject response)
                     {
                         Log.d("Respuesta", response.toString());
-                        JSONObject jsonObject = new JSONObject();
 
                         try {
-                            String laRespuesta = jsonObject.get("laRespuesta").toString();
+                            String laRespuesta = response.getJSONObject("laRespuesta").getString("laRespuesta");
+                            Log.d("Respuesta en String", laRespuesta);
                             callbackPet.callbackCall(laRespuesta);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
                     }
                 },
