@@ -112,7 +112,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarMedida(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( "OK" );
+        respuesta.send({laRespuesta: "OK"});
 	      console.log("Peticion POST insertarMedida recibido");
     }) // post / insertarMedida
 
@@ -129,10 +129,16 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         console.log(peticion.body);
 
         // llamamos al método de la lógica que se encarga de insertar medida
-        await laLogica.darAltaUsuario(datos);
+        var res = await laLogica.darAltaUsuario(datos);
+
+        if( res == "Ya existe"){
+          // enviarmos una respuesta que demuestra que todo ha salido mal
+          respuesta.status(404).send( {laRespuesta: "Ya existe"} );
+        }
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
         respuesta.status(200).send( {laRespuesta: "OK"} );
+
         console.log("Peticion POST darAltaUsuario recibido");
     }) // post / darAltaUsuario
 
@@ -152,7 +158,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( "OK" );
+        respuesta.send( {laRespuesta: "OK"} );
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarSensor
 
@@ -172,7 +178,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarTipoSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( "OK" );
+        respuesta.send( {laRespuesta: "OK"} );
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarTipoSensor
 
@@ -193,13 +199,12 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         console.log(res)
 
         if( res == true ){
-          respuesta.status(200).send("OK");
+          respuesta.status(200).send({laRespuesta: true});
         }
 
-        respuesta.status(404).send("Credenciales erróneas");
+        respuesta.status(404).send({laRespuesta: false});
 
         console.log("Peticion POST insertarSensor recibido");
-        respuesta.send("OK")
     }) // post / iniciarSesion
 
     //-----------------------------------------------------------------------------

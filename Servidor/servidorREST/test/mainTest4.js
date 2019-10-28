@@ -32,8 +32,7 @@ describe( "Test 2 : Probamos insertar y buscar medidas", function() {
     },
     function( err, respuesta, carga ) {
       assert.equal( err, null, "¿ha habido un error?" )
-      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, "OK", "¿La carga no es OK" )
+      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" );
       hecho()
     } // callback
     ) // .post
