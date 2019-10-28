@@ -1,3 +1,10 @@
+//-----------------------------------
+//   Autor: Adrián Heras Reche
+//   Fecha: 08/10/2019
+//   Última Actualización: 25/10/2019
+//   EmisoraBLE.h
+//-----------------------------------
+
 #include <bluefruit.h>
 
 class EmisoraBLE
@@ -47,12 +54,12 @@ class EmisoraBLE
 
     //-------------------------
     //   ->Z
-    //    anunciarCO()
+    //    anunciarCalidadAire()
     //-------------------------
-    void anunciarCO(int indiceCO)
+    void anunciarCalidadAire(int indiceCalidadAire)
     {
-      Serial.println(indiceCO);
-      cambiarBeacon(indiceCO, 4);
+      //Serial.println(indiceCalidadAire);
+      cambiarBeacon(indiceCalidadAire, 4);
     }
 
     //-------------------------
