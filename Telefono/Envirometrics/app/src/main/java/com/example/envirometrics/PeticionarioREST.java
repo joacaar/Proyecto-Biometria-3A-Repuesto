@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -13,16 +14,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PeticionarioREST extends Activity {
+import java.util.Map;
+
+import javax.security.auth.callback.Callback;
+
+
+public class PeticionarioREST {
 
     //---------------------------------------------------------------------------------
     //variables PRIVADAS
     //---------------------------------------------------------------------------------
     private String url;
     private RequestQueue queue;
-
 
     //---------------------------------------------------------------------------------
     // Le pasamos la url del servidor que queramos conectarnos y un contexto ( MainActivity por ejemplo )
@@ -39,7 +45,7 @@ public class PeticionarioREST extends Activity {
     // Con este método podremos enviar un JSON por medio del protocolo HTTP al servidor
     // Texto, JSONObject --> postJSONHTTP()
     //---------------------------------------------------------------------------------
-    public void postJSONHTTP(String paramsUrl, JSONObject elJson){
+    public void postJSONHTTP(String paramsUrl, JSONObject elJson, final CallbackPet callbackPet){
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest
                 (Request.Method.POST, url + paramsUrl, elJson, new Response.Listener<JSONObject>()
                 {
@@ -47,6 +53,17 @@ public class PeticionarioREST extends Activity {
                     public void onResponse(JSONObject response)
                     {
                         Log.d("Respuesta", response.toString());
+                        JSONObject jsonObject = new JSONObject();
+
+                        try {
+                            String laRespuesta = jsonObject.get("laRespuesta").toString();
+                            callbackPet.callbackCall(laRespuesta);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 },
                         new Response.ErrorListener()
@@ -61,33 +78,4 @@ public class PeticionarioREST extends Activity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjRequest);
     }
-
-    public void postDarAltaUsuario(String paramsUrl, JSONObject elJson){
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest
-                (Request.Method.POST, url + paramsUrl, elJson, new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        Log.d("Respuesta", response.toString());
-                        //Inicio el MainActivity
-                        Intent i = new Intent(PeticionarioREST.this, MainActivity.class);
-                        startActivity(i);
-                    }
-                },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error)
-                            {
-                                Log.d("Error conectar servidor", error.toString());
-                                TextView textoError = findViewById(R.id.textoError2);
-                                textoError.setText("Cuenta ya registrada");
-                            }
-                        });
-
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjRequest);
-    }
-
 }
