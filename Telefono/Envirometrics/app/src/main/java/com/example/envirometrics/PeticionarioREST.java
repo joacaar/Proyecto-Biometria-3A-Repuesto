@@ -72,7 +72,7 @@ public class PeticionarioREST {
                             {
                                 Log.d("Error conectar servidor", error.toString());
                             }
-                        }).setRetryPolicy(new DefaultRetryPolicy(150000,
+                        }).setRetryPolicy(new DefaultRetryPolicy(5000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
