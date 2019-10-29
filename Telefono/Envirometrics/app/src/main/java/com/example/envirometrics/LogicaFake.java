@@ -16,7 +16,7 @@ import javax.security.auth.callback.Callback;
 public class LogicaFake {
 
     private PeticionarioREST elPeticionario;
-    String laUrlDelServidor = "http://192.168.137.241:8080/";
+    String laUrlDelServidor = "http://172.20.10.6:8080/";
     private int statusCode;
 
 
@@ -53,6 +53,17 @@ public class LogicaFake {
         elPeticionario.postJSONHTTP("darAltaUsuario", eljson, callbackPet);
 
         Log.e("--- Server ---", "post enviado: Dar alta usuario");
+    }
+
+    void iniciarSesion(String email,String password, CallbackPet callbackPet){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("email", email);
+        params.put("password", password);
+
+        JSONObject eljson = new JSONObject(params);
+        elPeticionario.postJSONHTTP("iniciarSesion", eljson, callbackPet);
+
+        Log.e("--- Server ---", "post enviado: Iniciar sesion");
     }
 
 

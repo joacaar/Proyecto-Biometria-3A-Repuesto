@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,19 +47,18 @@ public class PeticionarioREST {
     // Texto, JSONObject --> postJSONHTTP()
     //---------------------------------------------------------------------------------
     public void postJSONHTTP(String paramsUrl, JSONObject elJson, final CallbackPet callbackPet){
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest
+        JsonObjectRequest jsonObjRequest = (JsonObjectRequest) new JsonObjectRequest
                 (Request.Method.POST, url + paramsUrl, elJson, new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        Log.d("Respuesta", response.toString());
-
                         try {
-                            String laRespuesta = response.getJSONObject("laRespuesta").getString("laRespuesta");
-                            Log.d("Respuesta en String", laRespuesta);
-                            callbackPet.callbackCall(laRespuesta);
+                            String laRespuesta = response.get("laRespuesta").toString();
+                            Log.d("Respuesta", laRespuesta);
 
+                            Log.d("-----Res  String-----",laRespuesta);
+                            callbackPet.callbackCall(laRespuesta);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -72,7 +72,9 @@ public class PeticionarioREST {
                             {
                                 Log.d("Error conectar servidor", error.toString());
                             }
-                        });
+                        }).setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the RequestQueue.
         queue.add(jsonObjRequest);
