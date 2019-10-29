@@ -7,12 +7,13 @@
 
 const Logica = require( "../Logica.js" )
 var assert = require ('assert')
+const sjcl = require ('sjcl')
 
 // ........................................................
 // main ()
 // ........................................................
 
-describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
+describe( "TEST 7: get TODOS LOS USUARIOS", function() {
 // ....................................................
 // ....................................................
 
@@ -35,29 +36,12 @@ describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar una Medición",
+  it( "getUsuarios me da todos los usuarios",
   async function() {
 
-    // INSERTAMOS UNA MEDIDA
-    await laLogica.insertarMedida({
-      valorMedida: 15, tiempo: 100,
-      latitud: 0.0, longitud: 0.0,
-      idUsuario: 1, idTipoMedida: 1,
-      idMedida: 1
-    })
+    var res = await laLogica.getUsuarios();
 
-      await laLogica.insertarMedida({
-        valorMedida: 45, tiempo: 100,
-        latitud: 0.0, longitud: 0.0,
-        idUsuario: 1, idTipoMedida: 1,
-        idMedida: 2
-      })
-
-      var res = await laLogica.getUltimaMedidaDeUnUsuario( 1 );
-
-      assert.equal( res.valorMedida, 45 )
-
-    // COMPROBAMOS QUE NOS DA LA ULTIMA MEDIDA QUE HEMOS INSERTADO
+    console.log(res);
 
   }) // it
 

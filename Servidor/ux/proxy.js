@@ -20,25 +20,21 @@ class Proxy {
   iniciarSesion( datos, callback ){
 
     var datosUsuario = {
-      email: datos.email, password: datos.password
+      nombre: datos.nombre, password: datos.password
     }
 
-      fetch(IP_PUERTO+"/iniciarSesion", {
+      fetch(IP_PUERTO+"/iniciarSesionAdmin", {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
       headers:{
          'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
       }
       }).then( (res) => {
-        return res
+        return res.json()
       }).catch( (error) => {
         return error
-      }).then(( response ) => {
-        if(response.status == 200){
-          callback(true)
-        } else{
-          callback(false)
-        }
+      }).then( (data) => {
+        callback(data)
       })
 
     }
@@ -66,11 +62,11 @@ class Proxy {
 
   }
 
-//----------------------------------------------------------------------------
-// JSON{ fecha: Texto, hora: Texto } --> getMedicionesPorFechaYHora()
-// --> JSON{ medidaCO: R, hora: Texto, fecha: Texto }
-//----------------------------------------------------------------------------
-  /*getMedicionesPorFechaYHora( datos, callback ){
+  //----------------------------------------------------------------------------
+  // getMedicionesPorFecha() -->
+  //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
+  //----------------------------------------------------------------------------
+  getUsuarios( callback ){
 
     var myInit = { method: 'GET',
                    headers: {
@@ -80,7 +76,7 @@ class Proxy {
                    cache: 'default' };
 
 
-    fetch(IP_PUERTO+"/medicion/" + datos.fecha + "/" + datos.hora, myInit)
+    fetch(IP_PUERTO+"/usuarios", myInit)
     .then((res)=>{
       return res.json();
     })
@@ -88,7 +84,7 @@ class Proxy {
       callback(data);
     })
 
-  }*/
+  }
 
 
 }

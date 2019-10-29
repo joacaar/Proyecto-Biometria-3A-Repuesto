@@ -111,7 +111,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
           }
           // todo ok
           respuesta.send( JSON.stringify( res ) )
-        }) // get /medida/<idMedida>
+        }) // get /usuarios
 
 
     //-----------------------------------------------------------------------------
@@ -217,10 +217,36 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         console.log(res)
 
         if( res ){
-          respuesta.send({laRespuesta: res});
+          respuesta.send(true);
         }
 
-        respuesta.send({laRespuesta: res});
+        respuesta.send(false);
+
+
+        console.log("Peticion POST insertarSensor recibido");
+    }) // post / iniciarSesion
+
+    //-----------------------------------------------------------------------------
+    // POST /iniciarSesion
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/iniciarSesionAdmin',
+      async function( peticion, respuesta ){
+        console.log( " * POST /iniciarSesion " )
+        var datos = JSON.parse( peticion.body )
+        // supuesto procesamiento
+        console.log(peticion.body);
+
+        // llamamos al método de la lógica que se encarga de insertar medida
+        var res = await laLogica.iniciarSesionAdmin(datos);
+        console.log(res)
+
+        if( res ){
+          respuesta.send(true);
+        }
+
+        respuesta.send(false);
 
 
         console.log("Peticion POST insertarSensor recibido");

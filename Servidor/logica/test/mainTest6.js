@@ -39,10 +39,6 @@ describe( "TEST 6: PROBAR INICIAR SESIÓN", function() {
   it( "Compruebo credenciales con metodo iniciarSesion()",
   async function() {
 
-    // INSERTAMOS UNA MEDIDA
-
-
-
     var datos = {
       email: "emilioxeraco@gmail.com",
       password: "1234" // encriptamos la contraseña con el email
