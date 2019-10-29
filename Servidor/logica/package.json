@@ -9,6 +9,8 @@
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
+    "simple-crypto-js": "^2.2.0",
+    "sjcl": "^1.0.8",
     "sqlite3": "*"
   },
   "devDependencies": {

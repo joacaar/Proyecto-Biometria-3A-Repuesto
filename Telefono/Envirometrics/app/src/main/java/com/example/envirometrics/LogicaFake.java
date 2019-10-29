@@ -11,11 +11,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.security.auth.callback.Callback;
+
 public class LogicaFake {
 
     private PeticionarioREST elPeticionario;
-    String laUrlDelServidor = "http://192.168.1.15:8080/";
+    String laUrlDelServidor = "http://192.168.137.241:8080/";
     private int statusCode;
+
 
     LogicaFake(Context elContexto){
 
@@ -26,6 +29,7 @@ public class LogicaFake {
     //Metodo encargado de pasar la informacion que recibe a un json y enviarla al servidor
     void anunciarCO( Medicion medicion){
 
+        CallbackPet callbackPet;
         Map<String, String> params = new HashMap<String, String>();
         params.put("medidaCO", String.valueOf(medicion.getMedidaCO()));
         params.put("hora", medicion.getHora());
@@ -34,23 +38,22 @@ public class LogicaFake {
         params.put("longitud", String.valueOf(medicion.getLongitud()));
 
         JSONObject eljson = new JSONObject(params);
-        elPeticionario.postJSONHTTP("insertarMedicion", eljson);
+        //elPeticionario.postJSONHTTP("insertarMedicion", eljson, callbackPet);
 
         Log.e("--- Server ---", "post enviado");
     }
 
-    void darAltaUsuario(Usuario usuario){
+    void darAltaUsuario(Usuario usuario, CallbackPet callbackPet){
         Map<String, String> params = new HashMap<String, String>();
         params.put("email", usuario.getEmail());
         params.put("password", usuario.getPassword());
         params.put("telefono", usuario.getTelefono());
 
         JSONObject eljson = new JSONObject(params);
-        elPeticionario.postDarAltaUsuario("darAltaUsuario", eljson);
+        elPeticionario.postJSONHTTP("darAltaUsuario", eljson, callbackPet);
 
         Log.e("--- Server ---", "post enviado: Dar alta usuario");
     }
-
 
 
     //Metodo para imlementar el metodo anterior en un boton

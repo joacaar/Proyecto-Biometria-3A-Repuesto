@@ -14,96 +14,55 @@
 
   }
 
-  function insertarMedicionPlana(){
+  async function iniciarSesion(){
 
-    var _medidaCO = document.getElementById('medidaCOA').value;
-    var _hora = document.getElementById('horaA').value;
-    var _fecha = document.getElementById('fechaA').value;
+    var _email = document.getElementById("email").value;
+    var _password = document.getElementById("password").value;
 
-    var datos = {
-      medidaCO: _medidaCO,
-      hora: _hora,
-      fecha: _fecha,
-      latitud: 0.0,
-      longitud: 0.0
+    console.log( _email + " " + _password );
+
+    var json = {
+      email: _email, password: _password
     }
 
-    console.log("medidaCO: " + datos.medidaCO);
-    console.log("horaA: "+ datos.hora);
-    console.log("fechaA: "+ datos.fecha);
-    console.log("latitudA: " + datos.latitud);
-    console.log("longitudA: " + datos.longitud);
+    console.log(json)
 
-    elProxy.insertarMedicionCO(datos);
-
-  }
-
-  function getMedicionesPorFechaPlana(){
-
-    var fecha = document.getElementById('fechaP').value;
-
-    console.log("fechaP: " + fecha);
-
-    elProxy.getMedicionesPorFecha(fecha, function(res){
-
-      console.log("medidaCO: " + res[0].medidaCO);
-      console.log("fecha: " + res[0].fecha);
-
-      for( let i = 0; i < res.length; i++ ){
-
-        var inputMedidaCO = document.createElement("INPUT"); // TEXTO QUE INDICA QUE ES EL NUMERO MAYOR
-        var medidaCO = document.createElement("INPUT"); // VALOR DEL NÚMERO MAYOR
-
-        inputMedidaCO.setAttribute("value", "medidaCO" + (i + 1));
-
-        medidaCO.setAttribute("type", "text");
-        medidaCO.setAttribute("value", res[i].medidaCO);
-        medidaCO.setAttribute("id", "medidaCO" + (i + 1));
-
-        document.body.appendChild(inputMedidaCO);
-        document.body.appendChild(medidaCO);
-
+    elProxy.iniciarSesion( json, function(res){
+      if( res ){
+        /*window.location.replace("http://www.google.com");*/
+        document.cookie = JSON.stringify(json);
+        getCookies();
       }
+    })
 
-    });
+    console.log("Voy a iniciarSesion")
 
   }
 
+  function getCookies(){
+    var json = JSON.parse(document.cookie);
+    document.getElementById("email").value = json.email + "C";
+    document.getElementById("password").value = json.password + "C";
+  }
 
 </script>
 
 <body>
 
-<h2>Insertar Medición</h2>
+ <h2> Iniciar Sesion </h2>
 
-  Mayor:
-  <br>
-  <input id="medidaCOA" type="number" value = 81>
-  <br>
-  Hora:
-  <br>
-  <input id="horaA" type"text" value = "2:2">
-  <br>
-  Fecha:
-  <br>
-  <input id="fechaA" type"text" value = "2:2">
-  <br>
-  <br>
-  <button onclick="insertarMedicionPlana()">Inserta Medición</button>
+ <br>
 
-<br>
+ <input id="email">
 
-<h2>Ver Medición</h2>
+ <br>
 
-  Fecha:
-  <br>
-  <input id="fechaP" type="text" value="2:2">
-  <br>
-  <br>
-  <button onclick="getMedicionesPorFechaPlana()"> Obtener Medición </button>
+ <input id="password">
 
-<br>
+ <br>
 
-</body>
+ <button onclick="iniciarSesion()"> Iniciar Sesión </button>
+
+
 
 </html>

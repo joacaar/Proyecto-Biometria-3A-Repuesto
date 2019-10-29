@@ -39,7 +39,7 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
 
      //DOY DE ALTA AL USUARIO
      await laLogica.darAltaUsuario({
-       idUsuario: 1, email: "emilioxeraco@gmail.com",
+       email: "emilioxeraco@gmail.com",
        password: "1234", telefono: "646601542"
      })
 
@@ -48,6 +48,10 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
 
      // COMPRUEBO QUE ES ESE USUARIO
      assert.equal( res.idUsuario, 1, "El ID usuario es: " + res.idUsuario)
+
+     var res2 = await laLogica.getUltimoIDUsuario();
+
+     assert.equal( res2, 1 );
 
   }) // it
 

@@ -7,6 +7,7 @@
 
 const Logica = require( "../Logica.js" )
 var assert = require ('assert')
+const sjcl = require ('sjcl')
 
 // ........................................................
 // main ()
@@ -40,9 +41,11 @@ describe( "TEST 6: PROBAR INICIAR SESIÓN", function() {
 
     // INSERTAMOS UNA MEDIDA
 
+
+
     var datos = {
       email: "emilioxeraco@gmail.com",
-      password: "1234"
+      password: "1234" // encriptamos la contraseña con el email
     }
 
     var res = await laLogica.iniciarSesion( datos )

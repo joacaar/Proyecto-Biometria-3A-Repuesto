@@ -40,11 +40,10 @@ describe( "TEST 1: BORRAR FILAS DE LA BD", function() {
 
     //BORRO LAS FILAS DE LAS SIGUIENTES TABLAS
     await laLogica.borrarFilasDe("Medidas")
-    await laLogica.borrarFilasDe("Usuarios")
-    await laLogica.borrarFilasDe("TipoSensores")
-    await laLogica.borrarFilasDe("Sensores")
     await laLogica.borrarFilasDe("UsuarioSensor")
-
+    await laLogica.borrarFilasDe("Sensores")
+    await laLogica.borrarFilasDe("TipoSensores")
+    await laLogica.borrarFilasDe("Usuarios")
 
   }) // it
 
