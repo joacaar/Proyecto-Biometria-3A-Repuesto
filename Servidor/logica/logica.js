@@ -111,6 +111,21 @@ buscarMedidasPorIdUsuario( idUsuario ){
 }
 
 // .................................................................
+// getUsuarios()
+// --> [{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
+// .................................................................
+getUsuarios( ){
+  var textoSQL = "select * from Usuarios";
+  var valoresParaSQL = { $idUsuario: idUsuario }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
+
+// .................................................................
 // getUltimoIDUsuario()
 // --> N
 // .................................................................
@@ -153,7 +168,7 @@ async getUltimaMedidaDeUnUsuario( idUsuario ){
 
 // .................................................................
 // --> email: Texto
-// buscarMedidasPorIdUsuario()
+// buscarUsuarioPorEmail()
 // --> {email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
 // .................................................................
 buscarUsuarioPorEmail( email ){
@@ -267,6 +282,11 @@ getUsuarioQueTieneElSensor( idSensor ){
     })
 }
 
+// --------------------------------------------------------
+// --> idSensor:N
+// buscarSensor()
+// {idSensor: N, idTipoMedida: N}
+// --------------------------------------------------------
 buscarSensor( idSensor ){
   var textoSQL = "select * from Sensores where idSensor=$idSensor";
   var valoresParaSQL = { $idSensor: idSensor }
@@ -278,7 +298,11 @@ buscarSensor( idSensor ){
     })
 }
 
+// --------------------------------------------------------
 // {email:Texto, password:Texto}
+// iniciarSesion()
+// --> V/F
+// --------------------------------------------------------
 async iniciarSesion(datos){
 
   var res = await this.buscarUsuarioPorEmail(datos.email);
@@ -288,6 +312,8 @@ async iniciarSesion(datos){
     try {
       if( sjcl.decrypt(datos.email, res.password) == datos.password ){
         resolver(true)
+      } else{
+        resolver(false)
       }
     } catch (error) {
       resolver(false)
