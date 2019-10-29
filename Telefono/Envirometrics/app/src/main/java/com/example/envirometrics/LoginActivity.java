@@ -41,12 +41,19 @@ public class LoginActivity extends AppCompatActivity {
                 EditText passwordEditText = findViewById(R.id.password);
                 password = passwordEditText.getText().toString();
 
-                if(email.equals("santi")&&password.equals("123")){
-                    Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(MainIntent);
-                }else {
-                    textoError.setText("Email o contraseña incorrectos");
-                }
+                laLogica.iniciarSesion( email, password,
+                        new CallbackPet () {
+                            public void callbackCall(String respuesta){
+                                if(respuesta.equals("true")){
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                }else {
+                                    textoError.setText("Email o contraseña incorrectos");
+                                }
+                            }
+                        }
+                );
+
             }
         });
     }
