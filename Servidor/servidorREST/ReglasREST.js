@@ -151,11 +151,11 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
 
         if( res == "Ya existe"){
           // enviarmos una respuesta que demuestra que todo ha salido mal
-          respuesta.send( {laRespuesta: "Ya existe"} );
+          respuesta.send( false );
         }
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( {laRespuesta: "OK"} );
+        respuesta.send( true );
 
         console.log("Peticion POST darAltaUsuario recibido");
     }) // post / darAltaUsuario

@@ -60,7 +60,7 @@ public class LocalizadorGPS {
         }else{
             Log.i(TAG, "Permisos necesarios OK!.");
             //Los datos de tiempo y distancia son para saber cuando el dispositivo se ha movido para actualizar la posicion, pero para ello se debe de mover y haber pasap cierto tiempo, sino no se actualiza
-            mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
+            //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
             mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
         }
     }
