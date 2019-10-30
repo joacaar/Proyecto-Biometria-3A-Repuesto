@@ -12,7 +12,7 @@ const IP_PUERTO="http://localhost:8080"
 // ........................................................
 // main ()
 // ........................................................
-describe( "Test 2 : Probamos insertar y buscar medidas", function() {
+describe( "Test 4 : Probamos insertar y buscar medidas", function() {
 
   // ....................................................
   // PROBAMOS POST /insertarMedicion
@@ -32,29 +32,11 @@ describe( "Test 2 : Probamos insertar y buscar medidas", function() {
     },
     function( err, respuesta, carga ) {
       assert.equal( err, null, "¿ha habido un error?" )
-      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, "OK", "¿La carga no es OK" )
+      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" );
       hecho()
     } // callback
     ) // .post
   }) // it
-
-// ....................................................
-// PROBAMOS GET /medidaPorIdMedida/<idMedida>
-// ....................................................
-
-it( "GET /medidaPorIdMedida/99 responde con la Medida que tiene esa ID", function( hecho ) {
-  request.get(
-    { url : IP_PUERTO+"/medidaPorIdMedida/99", headers : { 'User-Agent' : 'jordi' }},
-    function( err, respuesta, carga ) {
-      var json = JSON.parse(carga);
-      assert.equal( err, null, "¿ha habido un error?" )
-      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( json[json.length - 1].valorMedida, 74, "¿La medida es 74?" + json[json.length - 1].valorMedida )
-      hecho()
-    } // callback()
-  ) // .get
-}) // it
 
 // ....................................................
 // PROBAMOS GET /medidasPorIdUsuario/<idUsuario>

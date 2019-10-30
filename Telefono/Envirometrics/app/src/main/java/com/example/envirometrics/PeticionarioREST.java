@@ -1,80 +1,158 @@
 package com.example.envirometrics;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Window;
-import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+// -----------------------------------------------------------------------------------
+// @author: Jordi Bataller i Mascarell
+// -----------------------------------------------------------------------------------
+public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
-
-import javax.security.auth.callback.Callback;
-
-
-public class PeticionarioREST {
-
-    //---------------------------------------------------------------------------------
-    //variables PRIVADAS
-    //---------------------------------------------------------------------------------
-    private String url;
-    private RequestQueue queue;
-
-    //---------------------------------------------------------------------------------
-    // Le pasamos la url del servidor que queramos conectarnos y un contexto ( MainActivity por ejemplo )
-    // Texto, Context --> PeticionarioREST() --> (modifica los parámetros de dentro de la clase)
-    //---------------------------------------------------------------------------------
-    PeticionarioREST(String laUrl, Context context ){
-
-        this.url = laUrl;
-        queue = Volley.newRequestQueue( context );
-
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    public interface Callback {
+        void respuestaRecibida(int codigo, String cuerpo);
     }
 
-    //---------------------------------------------------------------------------------
-    // Con este método podremos enviar un JSON por medio del protocolo HTTP al servidor
-    // Texto, JSONObject --> postJSONHTTP()
-    //---------------------------------------------------------------------------------
-    public void postJSONHTTP(String paramsUrl, JSONObject elJson, final CallbackPet callbackPet){
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest
-                (Request.Method.POST, url + paramsUrl, elJson, new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        Log.d("Respuesta", response.toString());
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    private String elMetodo;
+    private String urlDestino;
+    private String elCuerpo = null;
+    private Callback elCallback;
 
-                        try {
-                            String laRespuesta = response.getJSONObject("laRespuesta").getString("laRespuesta");
-                            Log.d("Respuesta en String", laRespuesta);
-                            callbackPet.callbackCall(laRespuesta);
+    private String tipoDeCargaQueEnviamos; // = "text/plain; charset=utf-8";
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+    private int codigoRespuesta;
+    private String cuerpoRespuesta = "";
 
-                    }
-                },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error)
-                            {
-                                Log.d("Error conectar servidor", error.toString());
-                            }
-                        });
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    public void hacerPeticionREST (String metodo, String urlDestino, String cuerpo, Callback  elCallback ) {
+       this.hacerPeticionREST( metodo, urlDestino, cuerpo, elCallback, "text/plain; charset=utf-8");
+    } // ()
 
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjRequest);
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    public void hacerPeticionREST (String metodo, String urlDestino, String cuerpo, Callback  elCallback, String tipoDeCarga  ) {
+        this.elMetodo = metodo;
+        this.urlDestino = urlDestino;
+        this.elCuerpo = cuerpo;
+        this.elCallback = elCallback;
+
+        this.tipoDeCargaQueEnviamos = tipoDeCarga;
+
+        super.execute(); // otro thread ejecutará doInBackground()
+    } // ()
+
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    public PeticionarioREST() {
+        Log.d("peticionariorestandroid", "constructor()");
+    } // ()
+
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    @Override
+    protected Boolean doInBackground(Void... params) {
+        Log.d("peticionariorestandroid", "doInBackground()");
+
+        try {
+
+            // envio la peticion
+
+            // pagina web para hacer pruebas: URL url = new URL("https://httpbin.org/html");
+            // ordinador del despatx 158.42.144.126 // OK URL url = new URL("http://158.42.144.126:8080");
+
+            Log.d("peticionariorestandroid", "doInBackground() me conecto a >" + urlDestino + "<");
+
+            URL url = new URL(urlDestino);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(this.elMetodo);
+
+            // connection.setRequestProperty("Accept", "*/*);
+
+            // connection.setUseCaches(false);
+            connection.setDoInput(true);
+
+            if ( ! this.elMetodo.equals("GET") && this.elCuerpo != null ) {
+                Log.d("peticionariorestandroid", "doInBackground(): no es get, pongo cuerpo");
+
+                connection.setRequestProperty("Content-Type", this.tipoDeCargaQueEnviamos );
+
+                connection.setDoOutput(true);
+                // si no es GET, pongo el cuerpo que me den en la peticin
+                DataOutputStream dos = new DataOutputStream (connection.getOutputStream());
+                dos.writeBytes(this.elCuerpo);
+                dos.flush();
+                dos.close();
+            }
+
+            // ya he enviado la peticin
+            Log.d("peticionariorestandroid", "doInBackground(): peticin enviada ");
+
+            // ahora obtengo la respuesta
+
+            int rc = connection.getResponseCode();
+            String rm = connection.getResponseMessage();
+            String respuesta = "" + rc + " : " + rm;
+            Log.d("peticionariorestandroid", "doInBackground() recibo respuesta = " + respuesta);
+            this.codigoRespuesta = rc;
+
+            try {
+
+                InputStream is = connection.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+                Log.d("peticionariorestandroid", "leyendo cuerpo");
+                StringBuilder acumulador = new StringBuilder ();
+                String linea;
+                while ( (linea = br.readLine()) != null) {
+                    Log.d("peticionariorestandroid", linea);
+                    acumulador.append(linea);
+                }
+                Log.d("peticionariorestandroid", "FIN leyendo cuerpo");
+
+                this.cuerpoRespuesta = acumulador.toString();
+                Log.d("peticionariorestandroid", "cuerpo recibido=" + this.cuerpoRespuesta);
+
+                connection.disconnect();
+
+            } catch (IOException ex) {
+                // dispara excepcin cuando la respuesta REST no tiene cuerpo y yo intento getInputStream()
+                Log.d("peticionariorestandroid", "doInBackground() : parece que no hay cuerpo en la respuesta");
+            }
+
+            return true; // doInBackground() termina bien
+
+        } catch (Exception ex) {
+            Log.d("peticionariorestandroid", "doInBackground(): ocurrio alguna otra excepcion: " + ex.getMessage());
+        }
+
+        return false; // doInBackground() NO termina bien
+    } // doInBackground ()
+
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    protected void onPostExecute(Boolean comoFue) {
+        // llamado tras doInBackground()
+        Log.d("peticionariorestandroid", "onPostExecute() comoFue = " + comoFue);
+
+        // llamo al callback del código usuario
+        this.elCallback.respuestaRecibida( this.codigoRespuesta, this.cuerpoRespuesta );
     }
-}
+
+} // class
+
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------

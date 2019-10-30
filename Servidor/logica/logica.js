@@ -79,13 +79,13 @@ insertarMedida( datos ) {
 } // ()
 
 // .................................................................
-// --> idMedida: N
-// buscarMedidasPorIdMedida()
+// --> idUsuario: N
+// buscarMedidasPorIdUsuario()
 // --> [{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
 // .................................................................
-buscarMedidasPorIdMedida( idMedida ){
-  var textoSQL = "select * from Medidas where idMedida=$idMedida";
-  var valoresParaSQL = { $idMedida: idMedida }
+buscarMedidasPorIdUsuario( idUsuario ){
+  var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
+  var valoresParaSQL = { $idUsuario: idUsuario }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
@@ -95,13 +95,12 @@ buscarMedidasPorIdMedida( idMedida ){
 }
 
 // .................................................................
-// --> idUsuario: N
-// buscarMedidasPorIdUsuario()
-// --> [{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+// getUsuarios()
+// --> [{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
 // .................................................................
-buscarMedidasPorIdUsuario( idUsuario ){
-  var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
-  var valoresParaSQL = { $idUsuario: idUsuario }
+getUsuarios( ){
+  var textoSQL = "select * from Usuarios";
+  var valoresParaSQL = {}
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {
@@ -153,7 +152,7 @@ async getUltimaMedidaDeUnUsuario( idUsuario ){
 
 // .................................................................
 // --> email: Texto
-// buscarMedidasPorIdUsuario()
+// buscarUsuarioPorEmail()
 // --> {email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
 // .................................................................
 buscarUsuarioPorEmail( email ){
@@ -185,6 +184,7 @@ async darAltaUsuario( datos ){
   var valoresParaSQL = {
      $idUsuario: res + 1, $email: datos.email, $password: laPasswordEncriptada, $telefono: datos.telefono
   }
+
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
         if( err ){
@@ -267,6 +267,11 @@ getUsuarioQueTieneElSensor( idSensor ){
     })
 }
 
+// --------------------------------------------------------
+// --> idSensor:N
+// buscarSensor()
+// {idSensor: N, idTipoMedida: N}
+// --------------------------------------------------------
 buscarSensor( idSensor ){
   var textoSQL = "select * from Sensores where idSensor=$idSensor";
   var valoresParaSQL = { $idSensor: idSensor }
@@ -292,6 +297,33 @@ async iniciarSesion(datos){
     try {
       if( sjcl.decrypt(datos.email, res.password) == datos.password ){
         resolver(true)
+      } else{
+        resolver(false)
+      }
+    } catch (error) {
+      resolver(false)
+    }
+
+  })
+
+}
+
+// --------------------------------------------------------
+// {nombre:Texto, password:Texto}
+// iniciarSesion()
+// --> V/F
+// --------------------------------------------------------
+async iniciarSesionAdmin(datos){
+
+  var res = await this.buscarUsuarioAdmin(datos.nombre);
+
+  return new Promise( ( resolver, rechazar ) => {
+
+    try {
+      if( res.password == datos.password ){
+        resolver(true)
+      } else{
+        resolver(false)
       }
     } catch (error) {
       resolver(false)

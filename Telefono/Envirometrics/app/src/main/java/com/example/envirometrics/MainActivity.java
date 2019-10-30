@@ -2,14 +2,12 @@ package com.example.envirometrics;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,11 +16,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
+import com.orhanobut.hawk.Hawk;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
-import android.widget.Button;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,10 +34,26 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    private Intent intencion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //----------------------------------------------------
+        //                  Beacon
+        //----------------------------------------------------
+        //Se piden los permisoso de localizacion o se comprueban que la app disponga de ellos
+        pedirPermisoGPS();
+
+        //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
+        receptorBle = new ReceptorBLE(this);
+        laLogicaFake = new LogicaFake();
+
+        // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
+        intencion = new Intent(MainActivity.this, Servicio.class);
+        startService(intencion);
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
@@ -56,30 +72,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-        //----------------------------------------------------
-        //                      BEACON
-        //----------------------------------------------------
-        //Se piden los permisoso de localizacion o se comprueban que la app disponga de ellos
-        pedirPermisoGPS();
-
-        //Se crea un objeto localizador y se obtiene la posicion al inicio
-        LocalizadorGPS localizador = new LocalizadorGPS(this);
-        localizador.ObtenerMiPosicionGPS();
-
-        Log.e("--- DEBUG BT ---", "Inicio del programa");
-
-        //Inicializamos el receptor bluetooth y la logica que comunicara al servidor
-        receptorBle = new ReceptorBLE(this);
-        laLogicaFake = new LogicaFake( this );
-
-        Log.e("--- DEBUG BT ---", "Inicializamos receptorBle");
-
-        // Comprobamos que el dispositivo tenga el BT On.
-        if(receptorBle.checkBleOn() != null) {
-            startActivityForResult(receptorBle.checkBleOn(), REQUEST_BLUETOOTH);
-        }
 
         /* NO FUNCIONA SI ESTA TODO EN EL MAIN, HAY QUE HACER QUE MIDA DE MANERA AUTOMATICA SIN DEPENDER DE UN BOTON
         //Cuando se pulsa el boton epieza a escanear llamando a la funcion obtenerCO()
@@ -113,6 +105,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //----------------------------------------------------------------------------------------------
+    // onStart ()
+    //----------------------------------------------------------------------------------------------
+    @Override
+    protected void onStart (){
+        super.onStart();
+
+
+        //Comprobamos el estado del bluetooth y pedimos al usuario que se active si este no lo esta
+        //En el resultado comprobaremos la decision del usuario y activaremos la posibilidad de
+        //ejecutar el servicio o no
+        if(receptorBle.btActived() != null) {
+            startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
+        }
+
+        // Comprobamos el bluetooth para activar, o no, los botones
+        if(receptorBle.checkBtOn()){
+            startService(intencion);
+        }
+
+
+    }
+
     public void pedirPermisoGPS(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
@@ -130,6 +145,20 @@ public class MainActivity extends AppCompatActivity {
 
             }else{
                 finish();
+            }
+        }
+    }
+
+    // REsultado de la peticion de activacion de bluetooth, si es activado activaremos los botones
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_BLUETOOTH) // Filtramos el resultado por el codigo de la actividad
+        {
+            //resultcode puede ser 0 si no se ha activado BT o -1 si este ha sido activado
+            if(resultCode == -1){
+
             }
         }
     }
