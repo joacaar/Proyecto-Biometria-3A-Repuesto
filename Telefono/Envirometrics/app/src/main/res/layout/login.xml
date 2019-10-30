@@ -150,17 +150,18 @@
             android:autoLink="all"
             android:text="¿Aún no tienes una cuenta?"
             android:textColor="#FFFFFF"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/textoRegistrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
+            android:linksClickable="true"
             android:onClick="linkRegistrarse"
             android:text=" Regístrate"
             android:textColor="#FFFFFF"
-            android:textIsSelectable="true"
+            android:textIsSelectable="false"
             android:textStyle="bold" />
     </LinearLayout>
 

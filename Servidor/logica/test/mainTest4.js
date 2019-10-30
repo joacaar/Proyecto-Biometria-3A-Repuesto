@@ -45,12 +45,6 @@ describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
       idUsuario: 1, idTipoMedida: 1,
       idMedida: 1
     })
-    // BUSCAMOS LA MEDIDA POR SU ID
-      var res = await laLogica.buscarMedidasPorIdMedida( 1 )
-
-    // COMPROBAMOS QUE LA MEDIDA QUE BUSCAMOS ES LA QUE HEMOS INSERTADO
-      assert.equal( res[0].valorMedida, 15 )
-      assert.equal( res[0].tiempo, 100 )
 
       await laLogica.insertarMedida({
         valorMedida: 45, tiempo: 100,

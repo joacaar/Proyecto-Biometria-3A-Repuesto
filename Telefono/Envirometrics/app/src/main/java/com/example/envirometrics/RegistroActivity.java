@@ -3,6 +3,7 @@ package com.example.envirometrics;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ public class RegistroActivity extends Activity {
 
         btnRegistrarme = findViewById(R.id.btnRegistrarse);
         textoError = findViewById(R.id.textoError2);
-        laLogica = new LogicaFake(this);
+        laLogica = new LogicaFake();
         registrarse();
 
     }
@@ -69,20 +70,24 @@ public class RegistroActivity extends Activity {
                         //Creo un usuario y se lo envio al servidor para que lo guarde en la bd
                         Usuario nuevoUsuario = new Usuario(email, telefono, password);
 
+                        //Dar alta usuario
                         laLogica.darAltaUsuario( nuevoUsuario,
-                                new CallbackPet () {
-                                    public void callbackCall(String respuesta){
-                                        if(respuesta.equals("OK")){
+                                new PeticionarioREST.Callback () {
+                                    @Override
+                                    public void respuestaRecibida( int codigo, String cuerpo ) {
+
+                                        Log.e("RESPUESTA RECIBIDA", "Logica.darAltaUsuario() respuestaRecibida: codigo = "
+                                                + codigo + " cuerpo=" + cuerpo);
+
+
+                                        if(cuerpo.contains("OK")){
                                             Intent i = new Intent(RegistroActivity.this, MainActivity.class);
                                             startActivity(i);
                                         }else {
-                                            textoError.setText("Usuario no registrado");
+                                            textoError.setText("Esta cuenta ya existe");
                                         }
-
                                     }
-
                                 }
-
                         );
                     }
                 }//else

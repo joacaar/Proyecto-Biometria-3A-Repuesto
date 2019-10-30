@@ -2,6 +2,7 @@ package com.example.envirometrics;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        laLogica = new LogicaFake(this);
+        laLogica = new LogicaFake();
         btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
         iniciarSesion();
@@ -41,12 +42,25 @@ public class LoginActivity extends AppCompatActivity {
                 EditText passwordEditText = findViewById(R.id.password);
                 password = passwordEditText.getText().toString();
 
-                if(email.equals("santi")&&password.equals("123")){
-                    Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(MainIntent);
-                }else {
-                    textoError.setText("Email o contraseña incorrectos");
-                }
+                //Iniciar sesión
+                laLogica.iniciarSesion(email,password,
+                        new PeticionarioREST.Callback () {
+                            @Override
+                            public void respuestaRecibida( int codigo, String cuerpo ) {
+
+                                Log.e("RESPUESTA RECIBIDA", "Logica.darAltaUsuario() respuestaRecibida: codigo = "
+                                        + codigo + " cuerpo=" + cuerpo);
+
+                                if(cuerpo.contains("true")){
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                }else {
+                                    textoError.setText("Email o contraseña incorrecta");
+                                } //if-else
+                            }
+                        }
+                );
+
             }
         });
     }

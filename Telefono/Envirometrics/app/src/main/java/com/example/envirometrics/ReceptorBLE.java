@@ -33,7 +33,7 @@ public class ReceptorBLE {
 
         this.mContext = context_;
         //mHandler = new Handler();
-        myLogic = new LogicaFake(mContext);
+        myLogic = new LogicaFake();
 
         medicion = new Medicion();
 
@@ -59,13 +59,21 @@ public class ReceptorBLE {
     // Metodo que comprueba si el BT esta encendido y en el caso que no lo este devuelve un intent
     // para mostrar un activity para pedirle al usuario que lo encienda.
     //En el caso que este encendido devolvera null.
-    public Intent checkBleOn() {
+    public Intent btActived() {
 
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             return enableBT;
         }
         return null;
+    }
+
+    public boolean checkBtOn() {
+
+        if (mBluetoothAdapter.isEnabled()) {
+            return true;
+        }
+        return false;
     }
 
     //Da comienzo el escaneo donde se llama al callback implementado al final de la clase para

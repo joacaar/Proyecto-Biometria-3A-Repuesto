@@ -14,46 +14,65 @@
 
   }
 
-  async function iniciarSesion(){
+  async function iniciarSesion(_nombre, _password){
 
-    var _email = document.getElementById("email").value;
-    var _password = document.getElementById("password").value;
-
-    console.log( _email + " " + _password );
+    console.log( _nombre + " " + _password );
 
     var json = {
-      email: _email, password: _password
+      nombre: _nombre, password: _password
     }
 
     console.log(json)
 
     elProxy.iniciarSesion( json, function(res){
-      if( res ){
+
+      if( res == true ){
         /*window.location.replace("http://www.google.com");*/
         document.cookie = JSON.stringify(json);
-        getCookies();
+      } else{
+        alert("Credenciales erróneas")
       }
+      console.log(res)
     })
 
     console.log("Voy a iniciarSesion")
 
   }
 
-  function getCookies(){
-    var json = JSON.parse(document.cookie);
-    document.getElementById("email").value = json.email + "C";
-    document.getElementById("password").value = json.password + "C";
+  async function iniciarSesionOnLoad(){
+    var laCookie = JSON.parse(document.cookie)
+    var nombre = laCookie.nombre;
+    var password = laCookie.password;
+    await iniciarSesion(nombre, password)
+  }
+
+  async function iniciarSesionOnClickButton(){
+    var nombre = document.getElementById("nombre").value;
+    var password = document.getElementById("password").value;
+    await iniciarSesion(nombre, password)
+  }
+
+  function getUsuarios(){
+    elProxy.getUsuarios(function(res){
+      console.log(res)
+    });
+  }
+
+  function getUltimaMedidaDeUnUsuario(){
+    elProxy.getUltimaMedidaDeUnUsuario(1, function(res){
+      console.log(res)
+    })
   }
 
 </script>
 
-<body>
+<body onload="iniciarSesionOnLoad()">
 
  <h2> Iniciar Sesion </h2>
 
  <br>
 
- <input id="email">
+ <input id="nombre">
 
  <br>
 
@@ -61,8 +80,10 @@
 
  <br>
 
- <button onclick="iniciarSesion()"> Iniciar Sesión </button>
+ <button onclick="iniciarSesionOnClickButton()"> Iniciar Sesión </button>
 
+ <button onclick="getUsuarios()"> getUsuarios </button>
 
+ <button onclick="getUltimaMedidaDeUnUsuario()"> getUltimaMedidaDeUnUsuario </button>
 
 </html>

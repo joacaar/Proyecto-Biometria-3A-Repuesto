@@ -35,7 +35,7 @@ describe( "TEST 3: INSERTAR SENSOR", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar una Medición",
+  it( "Puedo insertar y buscar un Sensor",
   async function() {
 
     // INSERTAMOS UN TIPO DE SENSOR
