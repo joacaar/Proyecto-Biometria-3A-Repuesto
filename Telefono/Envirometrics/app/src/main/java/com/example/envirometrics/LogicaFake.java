@@ -1,35 +1,61 @@
 package com.example.envirometrics;
 
-import android.content.Context;
 import android.util.Log;
-
-import com.android.volley.NetworkResponse;
-import com.android.volley.Response;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.security.auth.callback.Callback;
-
 public class LogicaFake {
 
-    private PeticionarioREST elPeticionario;
-    String laUrlDelServidor = "http://172.20.10.6:8080/";
-    private int statusCode;
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+/* EJEMPLO DE USO DE ESTA CLASE
+
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    ...
+     this.laLogica = new Logica("http://jsonplaceholder.typicode.com");
+    ...
 
 
-    LogicaFake(Context elContexto){
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    public void botonLlamarLogicaPulsado(View v) {
 
-    elPeticionario = new PeticionarioREST(laUrlDelServidor, elContexto);
 
-    }
+        this.laLogica.preguntarAlgo(new Logica.RespuestaAPreguntarAlgo() {
+            @Override
+            public void respuesta(String respuesta) {
+                Log.d(ETIQUETA_LOG, " MainActivity.botonLlamarLogicaPulsado() preguntarAlgo() : respuesta = " + respuesta);
+            } // ()
+        });
 
-    //Metodo encargado de pasar la informacion que recibe a un json y enviarla al servidor
-    void anunciarCO( Medicion medicion){
+        this.laLogica.enviarMedicionDeAlgo("{\"a\": 12, \"b\": 34 }");
 
-        CallbackPet callbackPet;
+    } // ()
+
+
+*/
+        // -------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------
+        interface RespuestaAPreguntarAlgo {
+            public void respuesta( String respuesta );
+        } // interface
+
+        // -------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------
+        private String urlServidor = "http://172.20.10.4:8080/";
+
+
+
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    public void anunciarCO( Medicion medicion) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("medidaCO", String.valueOf(medicion.getMedidaCO()));
         params.put("hora", medicion.getHora());
@@ -38,38 +64,119 @@ public class LogicaFake {
         params.put("longitud", String.valueOf(medicion.getLongitud()));
 
         JSONObject eljson = new JSONObject(params);
-        //elPeticionario.postJSONHTTP("insertarMedicion", eljson, callbackPet);
 
-        Log.e("--- Server ---", "post enviado");
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "insertarMedicion", eljson.toString(),
+                new PeticionarioREST.Callback() {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+                        Log.d("RESPUESTA RECIBIDA", "Logica.anunciarCO() respuestaRecibida: codigo = "
+                                + codigo + " cuerpo=" + cuerpo);
+                    }
+                },
+                "application/json; charset=utf-8"
+        );
     }
 
-    void darAltaUsuario(Usuario usuario, CallbackPet callbackPet){
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    public void darAltaUsuario(Usuario usuario, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("email", usuario.getEmail());
-        params.put("password", usuario.getPassword());
         params.put("telefono", usuario.getTelefono());
+        params.put("password", usuario.getPassword());
 
         JSONObject eljson = new JSONObject(params);
-        elPeticionario.postJSONHTTP("darAltaUsuario", eljson, callbackPet);
 
-        Log.e("--- Server ---", "post enviado: Dar alta usuario");
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "darAltaUsuario", eljson.toString(),elCallback,
+                "application/json; charset=utf-8");
     }
 
-    void iniciarSesion(String email,String password, CallbackPet callbackPet){
+
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    public void iniciarSesion(String email, String password, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("email", email);
         params.put("password", password);
 
+
         JSONObject eljson = new JSONObject(params);
-        elPeticionario.postJSONHTTP("iniciarSesion", eljson, callbackPet);
 
-        Log.e("--- Server ---", "post enviado: Iniciar sesion");
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "iniciarSesion", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
     }
 
 
-    //Metodo para imlementar el metodo anterior en un boton
-    void anunciarCOClickBoton(Medicion medicion){
-        this.anunciarCO(medicion);
-    }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+        // -------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------
+        public void enviarMedicionDeAlgo( String datosJSON ) {
+
+            PeticionarioREST elPeticionario = new PeticionarioREST();
+
+            elPeticionario.hacerPeticionREST("POST",  this.urlServidor + "/posts/", datosJSON,
+                    new PeticionarioREST.Callback () {
+                        @Override
+                        public void respuestaRecibida( int codigo, String cuerpo ) {
+                            Log.d( "RESPUESTA RECIBIDA", "Logica.enviarMedicionDeAlgo() respuestaRecibida: codigo = "
+                                    + codigo + " cuerpo=" + cuerpo);
+                        }
+                    },
+                    "application/json; charset=utf-8"
+            );
+
+        /*
+        Ejempo con curl
+        curl -d '{"key1":"pepito", "key2":"value2"}' -H "Content-Type: application/json; charset=utf-8" -X POST http://jsonplaceholder.typicode.com/posts/
+         */
+
+        // -------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------
+        public void preguntarAlgo( final RespuestaAPreguntarAlgo cb ) {
+
+            PeticionarioREST elPeticionario = new PeticionarioREST();
+
+            elPeticionario.hacerPeticionREST("GET",  this.urlServidor + "/posts/", null,
+                    new PeticionarioREST.Callback () {
+                        @Override
+                        public void respuestaRecibida( int codigo, String cuerpo ) {
+                            Log.d( "RESPUESTA RECIBIDA", "Logica.preguntarAlgo() respuestaRecibida: codigo = "
+                                    + codigo + " cuerpo=" + cuerpo);
+                            cb.respuesta( cuerpo );
+                        } // ()
+                    } // new
+            );
+
+        } // ()
+
+} // class
+
