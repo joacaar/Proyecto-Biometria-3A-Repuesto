@@ -17,6 +17,7 @@
 *
 *
 *   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
 *   Color secundario:                   #393946
 *   Color resaltado secundario:         #515160
 *   Color terciario:                    #F0F0F0
@@ -48,6 +49,10 @@ body {
 .loginForm.col-12 {
     padding-left: 1em;
     padding-right: 0;
+}
+
+.loginLabel {
+    margin: 8px 0 0 0;
 }
 
 .loginButton {
