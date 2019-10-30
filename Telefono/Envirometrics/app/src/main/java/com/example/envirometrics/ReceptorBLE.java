@@ -33,7 +33,7 @@ public class ReceptorBLE {
 
         this.mContext = context_;
         //mHandler = new Handler();
-        myLogic = new LogicaFake(mContext);
+        myLogic = new LogicaFake();
 
         medicion = new Medicion();
 

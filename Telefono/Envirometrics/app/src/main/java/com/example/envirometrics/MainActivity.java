@@ -5,11 +5,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -22,7 +19,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
-import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Inicializamos el receptor bluetooth y la logica que comunicara al servidor
         receptorBle = new ReceptorBLE(this);
-        laLogicaFake = new LogicaFake( this );
+        laLogicaFake = new LogicaFake();
 
         Log.e("--- DEBUG BT ---", "Inicializamos receptorBle");
 
