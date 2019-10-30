@@ -1,5 +1,6 @@
 package com.example.envirometrics;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,16 +11,16 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import java.util.Calendar;
 
 public class Servicio extends Service {
 
-
-    private final String TAG = "---IntentService";
-
     private NotificationManager notificationManager;
     static final String CANAL_ID = "mi_canal";
     static final int NOTIFICACION_ID = 1;
+    private Notification.Builder notificacion;
 
     private ReceptorBLE receptor;
 
@@ -38,12 +39,23 @@ public class Servicio extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("Service-------", "Servicio iniciado");
-        Notification.Builder notificacion = new
-                Notification.Builder(this, CANAL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher) .setContentTitle("Título")
-                .setContentText("Texto de la notificación.");
 
-        PendingIntent intencionPendiente = PendingIntent.getActivity( this , 0, new Intent( this , MainActivity. class ),PendingIntent.FLAG_CANCEL_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            notificacion = new
+                    Notification.Builder(this, CANAL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Título")
+                    .setContentText("Texto de la notificación.");
+        }else{
+            notificacion = new
+                    Notification.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Título")
+                    .setContentText("Texto de la notificación.");
+        }
+
+
+        PendingIntent intencionPendiente = PendingIntent.getActivity( this , 0, new Intent( this , MainActivity.class ),PendingIntent.FLAG_CANCEL_CURRENT);
         notificacion.setContentIntent(intencionPendiente);
 
         //notificationManager.notify(NOTIFICACION_ID, notificacion.build()); Crea la notificacion

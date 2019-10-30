@@ -16,6 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
+import com.orhanobut.hawk.Hawk;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         laLogicaFake = new LogicaFake();
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
-        intencion = new Intent(this, Servicio.class);
+        intencion = new Intent(MainActivity.this, Servicio.class);
+        startService(intencion);
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
